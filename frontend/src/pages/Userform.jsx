@@ -41,7 +41,7 @@ const Form = () => {
             </div>
             <div>
               <label htmlFor="tool" className='block text-slate-600 mb-1'>Tools</label>
-              <select name="tool" id="tool" value={formData.tool} onChange={handleChange} className='w-4/5 border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300'>
+              <select name="tool" id="tool" value={formData.tool} onChange={handleChange} className='w-4/5 border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300 text-slate-600'>
                 <option value="" disabled>Select a tool</option>
                 <option value="Hammer">Hammer</option>
                 <option value="ScrewDriver">ScrewDriver</option>
