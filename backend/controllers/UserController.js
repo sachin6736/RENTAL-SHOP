@@ -67,7 +67,7 @@ export const deleteuser = async(req,res,next)=>{
     } catch (error) {
         console.log("failed to delete user",error)
     }
-}
+}///deleting user
 
 
 
