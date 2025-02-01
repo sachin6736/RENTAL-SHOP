@@ -10,7 +10,7 @@ const Dashboard = () => {
                 <div className="side-dashboard">Dashboard</div>
                 <div className="side-users-list">User List</div>
                 <div className="side-tool-list">Tools List</div>
-                <div className="side-order-list">Order List</div>
+                <div className="side-order-list">Order Lis</div>
             </div>
             <div className="details">
 
