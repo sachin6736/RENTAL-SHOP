@@ -10,24 +10,28 @@ const tools = [
       name: "Electric Drill",
       price: "$120",
       image: Drilling,
+      count:4,
     },
     {
       id: 2,
       name: "Hammer",
       price: "$25",
       image: Hammer,
+      count:3,
     },
     {
       id: 3,
       name: "Saw Machine",
       price: "$75",
       image: Sawmachine,
+      count:2,
     },
     {
       id: 4,
       name: "Wrench Set",
       price: "$50",
       image: Wrenchset,
+      count:10,
     },
   ];
 
@@ -36,7 +40,10 @@ const ToolCard = ({ tool }) => {
       <div className="bg-white shadow-lg rounded-2xl p-4 hover:scale-105 transition-transform">
         <img src={tool.image} alt={tool.name} className="w-full h-40 object-cover rounded-xl" />
         <h2 className="mt-2 text-lg font-semibold">{tool.name}</h2>
+        <div className='flex items-center justify-center space-x-44'>
         <p className="text-gray-600">{tool.price}</p>
+        <p className="text-red-600">{tool.count} left</p>
+        </div>
       </div>
     );
 };
