@@ -36,12 +36,12 @@ export default function UserList() {
   }
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
+    <div className="w-full h-full p-4 flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
       {/* Header Section */}
       <header className="bg-blue-800 w-full py-4 text-center shadow-md">
-        <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
+        {/* <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
           Tools Rental Shop
-        </h1>
+        </h1> */}
         <p className="text-sm text-blue-200">User Management</p>
       </header>
 

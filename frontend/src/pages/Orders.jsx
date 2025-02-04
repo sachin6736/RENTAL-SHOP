@@ -15,7 +15,7 @@ const OrderList = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
+    <div className="w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
       <h2 className="bg-blue-800 w-full py-4 text-center text-2xl font-bold text-white uppercase tracking-wider shadow-md">
         Order List
       </h2>
