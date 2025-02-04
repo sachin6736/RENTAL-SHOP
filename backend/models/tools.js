@@ -10,6 +10,11 @@ const toolsSchema = new mongoose.Schema({
         type:Number,
         required:true,
         unique:false
+    },
+    price:{
+        type:Number,
+        required:true,
+        unique:false
     }
 })
 

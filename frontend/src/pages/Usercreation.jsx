@@ -39,15 +39,12 @@ export default function Usercreation() {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
-      {/* Header Section */}
       <header className="bg-blue-800 w-full py-4 text-center shadow-md">
         <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
           Tools Rental Shop
         </h1>
         <p className="text-sm text-blue-200">Efficient and affordable tool rentals</p>
       </header>
-
-      {/* Form Section */}
       <div className="flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full">
         <h2 className="text-xl font-semibold text-blue-800 mb-4">
           User Creation
