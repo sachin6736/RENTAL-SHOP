@@ -5,7 +5,7 @@ export default function RentalForm() {
     name: "",
     phone: "", // Ensure it's initialized with an empty string
     tools: [{ toolId: "", count: "1" }],
-    time: "",
+    time: "1",
     amount: 0, // Set initial amount to 0
   });
 
@@ -158,7 +158,7 @@ export default function RentalForm() {
                   className="cursor-pointer hover:bg-blue-100 p-2"
                   onClick={() => handleUserSelect(user)} // Select user from list
                 >
-                  {user.name}
+                  {`${user.name}-${user.phone}`}
                 </div>
               ))}
             </div>
@@ -226,6 +226,7 @@ export default function RentalForm() {
             type="text"
             name="time"
             placeholder="Enter Time (e.g., 3 days)"
+            value={formData.time}
             onChange={(e) => setFormData({ ...formData, time: e.target.value })}
           />
           <input
