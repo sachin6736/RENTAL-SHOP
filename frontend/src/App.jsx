@@ -1,21 +1,27 @@
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+// import Users from './pages/Usercreation'
+import Dashboard from './pages/Dashboard'
+import Tools from './pages/Tools'
+import Users from './pages/UserList'
+import Orders from './pages/Orders'
 
-import './App.css';
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import User from './pages/Usercreation';
-import UserList from './pages/UserList';
-import Dashboard from './pages/Dashboard';
 import RentalForm from './pages/RentalForm';
 import AddTool from './pages/AddTool'
 
-function App() {
-  return <BrowserRouter>
-  <Routes>
-    <Route path='/' element={<Dashboard/>}/>
-    <Route path='/getusers' element={<UserList/>}/>
-    <Route path='/rentalform' element={<RentalForm/>}/>
-    <Route path='/addtool' element={<AddTool/>}/>
-  </Routes>
-  </BrowserRouter>
+function App () {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/Users' element={<Users />} />
+        <Route path='/Tools' element={<Tools />} />
+        <Route path='/giverent' element={< RentalForm/>}/>
+        <Route path='/addtool' element={<AddTool/>}/>
+        <Route path='/Orders' element={<Orders />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
