@@ -4,6 +4,8 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import User from './pages/Usercreation';
 import UserList from './pages/UserList';
 import Dashboard from './pages/Dashboard';
+import RentalForm from './pages/RentalForm';
+import AddTool from './pages/AddTool'
 
 function App() {
   return <BrowserRouter>
