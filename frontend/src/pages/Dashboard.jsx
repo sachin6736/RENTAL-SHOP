@@ -16,32 +16,32 @@ const Dashboard = () => {
       <div className='contents'>
         <div className='sidebar'>
           <div
-            className={`p-3 cursor-pointer hover:bg-gray-300 ${
-              activeComponent === 'Dashboard' ? 'bg-gray-400' : ''
+            className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
+              activeComponent === 'Dashboard' ? 'bg-blue-100 text-black rounded-md' : ''
             }`}
             onClick={() => setActiveComponent('Dashboard')}
           >
             Dashboard
           </div>
           <div
-            className={`p-3 cursor-pointer hover:bg-gray-300 ${
-              activeComponent === 'Users' ? 'bg-gray-400' : ''
+            className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
+              activeComponent === 'Users' ? 'bg-blue-100 text-black rounded-md' : ''
             }`}
             onClick={() => setActiveComponent('Users')}
           >
             User List
           </div>
           <div
-            className={`p-3 cursor-pointer hover:bg-gray-300 ${
-              activeComponent === 'Tools' ? 'bg-gray-400' : ''
+            className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
+              activeComponent === 'Tools' ? 'bg-blue-100 text-black rounded-md' : ''
             }`}
             onClick={() => setActiveComponent('Tools')}
           >
             Tools List
           </div>
           <div
-            className={`p-3 cursor-pointer hover:bg-gray-300 ${
-              activeComponent === 'Orders' ? 'bg-gray-400' : ''
+            className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
+              activeComponent === 'Orders' ? 'bg-blue-100 text-black rounded-md' : ''
             }`}
             onClick={() => setActiveComponent('Orders')}
           >
