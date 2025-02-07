@@ -6,8 +6,8 @@ import User from "../models/user.js";
 export const createuser = async(req,res,next)=>{
     console.log("controller working")
     const {name,adress,phone,aadhar,profession} = req.body;
-    if(!name || !adress|| !phone|| !aadhar|| !profession){
-        res.status(401).json("all fields necessary")
+    if(!name || !phone){
+        res.status(401).json("phone number and name is mandatory")
     }else{
         console.log("user request",req.body);
         const newuser = new User({

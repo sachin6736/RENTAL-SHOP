@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function RentalForm() {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "", // Ensure it's initialized with an empty string
+    phone: "", 
     tools: [{ toolId: "", count: "1" }],
     time: "1",
     amount: 0, // Set initial amount to 0
@@ -90,7 +90,7 @@ export default function RentalForm() {
       if (Array.isArray(data)) {
         setMatchingUsers(data); // Store the matching users
       } else {
-        setMatchingUsers([]);
+        setMatchingUsers([]); // Clear matching users if not found
       }
     } catch (error) {
       console.error("Error searching users:", error);
@@ -117,10 +117,33 @@ export default function RentalForm() {
     setMatchingUsers([]); // Clear matching users after selection
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle form submission logic here
+    try {
+      const response = await fetch("http://localhost:3000/rental/giverent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Rental created successfully!");
+        setFormData({
+          name: "",
+          phone: "",
+          tools: [{ toolId: "", count: "" }],
+          time: "",
+          amount: 0,
+        });
+      } else {
+        alert("Error creating rental.");
+      }
+    } catch (error) {
+      console.error("Error submitting rental form:", error);
+      alert("Error submitting rental form.");
+    }
   };
 
   return (

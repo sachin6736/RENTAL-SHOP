@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     adress: {
         type: String,
-        required: true,
+        required: false,
         unique: false
     },
     phone: {
@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema({
     },
     aadhar: {
         type: String,
-        required: true,
+        required: false,
         unique: true
     },
     profession: {
         type: String,
-        required: true,
+        required: false,
         unique: false
     }
 });
