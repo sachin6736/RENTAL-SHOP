@@ -8,7 +8,7 @@ export const createrental = async(req,res,next)=>{
     let user = await User.findOne({ phone });
     if (!user) {
       // If user does not exist, create a new one
-      user = new User({ name, phone, address: "Unknown", aadhar: "000000000000", profession: "Unknown" });
+      user = new User({ name, phone, adress: "Unknown", aadhar: "000000000000", profession: "Unknown" });
       await user.save();
     }
 
