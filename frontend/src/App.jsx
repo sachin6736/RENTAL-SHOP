@@ -1,28 +1,23 @@
-import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import Users from './pages/Usercreation'
-import Dashboard from './pages/Dashboard'
-import Tools from './pages/Tools'
-import Users from './pages/UserList'
-import Orders from './pages/Orders'
-import Usercreation from './pages/Usercreation'
+import './App.css';
+import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import User from './pages/Usercreation';
+import UserList from './pages/UserList';
+import Dashboard from './pages/Dashboard';
 import RentalForm from './pages/RentalForm';
 import AddTool from './pages/AddTool'
+import ToolsList from './pages/ToolsList';
 
-function App () {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/createuser' element={<Usercreation/>}/>
-        <Route path='/Users' element={<Users />} />
-        <Route path='/Tools' element={<Tools />} />
-        <Route path='/giverent' element={< RentalForm/>}/>
-        <Route path='/addtool' element={<AddTool/>}/>
-        <Route path='/Orders' element={<Orders />} />
-      </Routes>
-    </BrowserRouter>
-  )
+function App() {
+  return <BrowserRouter>
+  <Routes>
+    <Route path='/' element={<Dashboard/>}/>
+    <Route path='/usercreation' element={<User/>}/>
+    <Route path='/getusers' element={<UserList/>}/>
+    <Route path='/rentalform' element={<RentalForm/>}/>
+    <Route path='/addtool' element={<AddTool/>}/>
+    <Route path='/toolslist' element={<ToolsList/>}/>
+  </Routes>
+  </BrowserRouter>
 }
 
 export default App
