@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function RentalForm() {
   const [formData, setFormData] = useState({
@@ -146,6 +147,10 @@ export default function RentalForm() {
     }
   };
 
+  //creating new user
+  const navigate = useNavigate()
+  const handleClick = () => navigate('/Usercreation')
+
   return (
     <div className="w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
 
@@ -266,15 +271,7 @@ export default function RentalForm() {
             <button
               className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-all w-full"
               type="button"
-              onClick={() => {
-                setFormData({
-                  name: "",
-                  phone: "",
-                  tools: [{ toolId: "", count: "" }],
-                  time: "",
-                  amount: 0,
-                });
-              }}
+              onClick={handleClick}
             >
               New User
             </button>

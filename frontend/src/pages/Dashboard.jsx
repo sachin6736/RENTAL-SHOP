@@ -58,7 +58,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='details'>
-          <div className='details p-4'>
+          <div className='p-4'>
             {activeComponent === 'Dashboard' && <RentalForm />}
             {activeComponent === 'Users' && <Users />}
             {activeComponent === 'Tools' && <Tools />}

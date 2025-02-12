@@ -3,6 +3,7 @@ import Drilling from '../assets/drilling.jpg'
 import Hammer from '../assets/hammer.jpg'
 import Sawmachine from '../assets/sawmachine.webp'
 import Wrenchset from '../assets/wrenchset.webp'
+import { useNavigate } from 'react-router-dom'
 
 // const tools = [
 //     {
@@ -51,9 +52,17 @@ const ToolsList = () => {
     fetchtool()
   }, [])
   console.log('Updated tools', tools)
+
+
+  const navigate = useNavigate()
+  const handleClick =() => navigate('/AddTool')
   return (
-    <div className='container mx-auto p-6'>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+    <div className='container mx-auto p-6 bg-orange-500'>
+
+      <div className="w-full flex items-center justify-center p-4">
+        <button className='w-[150px] h-[40px] bg-blue-500 rounded-md text-white font-bold' onClick={handleClick}>Add Tool</button>
+      </div>
+      <div className='bg-red-500 h-fit grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
         {tools.map(tool => (
           <div key={tool._id}>
             <div className='bg-white shadow-lg rounded-2xl p-4 hover:scale-105 transition-transform'>
@@ -71,6 +80,7 @@ const ToolsList = () => {
           </div>
         ))}
       </div>
+      
     </div>
   )
 }
