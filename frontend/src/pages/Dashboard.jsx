@@ -58,12 +58,12 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='details'>
-          <div className='p-4'>
+          {/* <div className='p-4'> */}
             {activeComponent === 'Dashboard' && <RentalForm />}
             {activeComponent === 'Users' && <Users />}
             {activeComponent === 'Tools' && <Tools />}
             {activeComponent === 'Orders' && <Orders />}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>
