@@ -1,20 +1,32 @@
 import User from '../models/user.js';
 import Rental from '../models/rent.js';
+import Tools from '../models/tools.js'
 
-export const createrental = async(req,res,next)=>{
-  console.log("create rental working")
+export const createrental = async (req, res, next) => {
+  console.log("create rental working");
   try {
     const { name, phone, tools, time, amount } = req.body;
     let user = await User.findOne({ phone });
     if (!user) {
-      // If user does not exist, create a new one
-      user = new User({ name, phone, address: "Unknown", aadhar: "000000000000", profession: "Unknown" });
+      user = new User({
+        name,
+        phone,
+        address: "ask later",
+        aadhar: Math.floor(100000000000 + Math.random() * 900000000000).toString(),
+        profession: "Unknown"
+      });
       await user.save();
     }
-
-    // Step 2: Create a new Rental
+    for (const rentedTool of tools) {
+      const tool = await Tools.findById(rentedTool.toolId);
+      if (!tool || tool.count < rentedTool.count) {
+        return res.status(400).json({ message: `Not enough stock for ${rentedTool.toolId}` });
+      }
+      tool.count -= rentedTool.count; // Reduce tool count
+      await tool.save();
+    }
     const newRental = new Rental({
-      user: user._id, 
+      user: user._id,
       tools,
       time,
       amount,
@@ -28,7 +40,7 @@ export const createrental = async(req,res,next)=>{
     console.error("Error creating rental:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
 export const search = async (req, res) => {
     console.log("search controller working")
