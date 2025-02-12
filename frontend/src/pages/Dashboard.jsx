@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Users from './UserList'
 import Tools from './ToolsList'
 import Orders from './Orders'
+import RentalForm from './RentalForm'
 
 // import '../App.css'
 
@@ -17,7 +18,9 @@ const Dashboard = () => {
         <div className='sidebar'>
           <div
             className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
-              activeComponent === 'Dashboard' ? 'bg-blue-100 text-black rounded-md' : ''
+              activeComponent === 'Dashboard'
+                ? 'bg-blue-100 text-black rounded-md'
+                : ''
             }`}
             onClick={() => setActiveComponent('Dashboard')}
           >
@@ -25,7 +28,9 @@ const Dashboard = () => {
           </div>
           <div
             className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
-              activeComponent === 'Users' ? 'bg-blue-100 text-black rounded-md' : ''
+              activeComponent === 'Users'
+                ? 'bg-blue-100 text-black rounded-md'
+                : ''
             }`}
             onClick={() => setActiveComponent('Users')}
           >
@@ -33,7 +38,9 @@ const Dashboard = () => {
           </div>
           <div
             className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
-              activeComponent === 'Tools' ? 'bg-blue-100 text-black rounded-md' : ''
+              activeComponent === 'Tools'
+                ? 'bg-blue-100 text-black rounded-md'
+                : ''
             }`}
             onClick={() => setActiveComponent('Tools')}
           >
@@ -41,7 +48,9 @@ const Dashboard = () => {
           </div>
           <div
             className={`p-3 cursor-pointer hover:bg-blue-200 rounded-md ${
-              activeComponent === 'Orders' ? 'bg-blue-100 text-black rounded-md' : ''
+              activeComponent === 'Orders'
+                ? 'bg-blue-100 text-black rounded-md'
+                : ''
             }`}
             onClick={() => setActiveComponent('Orders')}
           >
@@ -49,10 +58,8 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='details'>
-          <div className='details p-4 w-3/4'>
-            {activeComponent === 'Dashboard' && (
-              <h2 className='text-xl'>Welcome to Dashboard</h2>
-            )}
+          <div className='details p-4'>
+            {activeComponent === 'Dashboard' && <RentalForm />}
             {activeComponent === 'Users' && <Users />}
             {activeComponent === 'Tools' && <Tools />}
             {activeComponent === 'Orders' && <Orders />}
