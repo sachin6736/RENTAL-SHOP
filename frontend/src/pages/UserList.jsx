@@ -38,12 +38,9 @@ export default function UserList() {
   return (
     <div className="w-full h-full p-4 flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
       {/* Header Section */}
-      <header className="bg-blue-800 w-full py-4 text-center shadow-md">
-        {/* <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
-          Tools Rental Shop
-        </h1> */}
+      {/* <header className="bg-blue-800 w-full py-4 text-center shadow-md">
         <p className="text-sm text-blue-200">User Management</p>
-      </header>
+      </header> */}
 
       {/* User List Section */}
       <div className="mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-4xl w-full">

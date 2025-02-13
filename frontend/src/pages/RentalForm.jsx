@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function RentalForm() {
   const [formData, setFormData] = useState({
@@ -146,16 +147,14 @@ export default function RentalForm() {
     }
   };
 
-  return (
-    <div className="w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
-      <header className="bg-blue-800 w-full py-4 text-center shadow-md">
-        <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
-          Tools Rental Shop
-        </h1>
-        <p className="text-sm text-blue-200">Rent Tools Easily & Efficiently</p>
-      </header>
+  //creating new user
+  const navigate = useNavigate()
+  const handleClick = () => navigate('/Usercreation')
 
-      <div className="flex flex-col justify-center items-center mt-8 p-6 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full">
+  return (
+    <div className="w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200">
+
+      <div className="flex flex-col justify-center items-center mt-8 p-6 bg-white shadow-lg rounded-md border border-gray-300">
         <h2 className="text-xl font-semibold text-blue-800 mb-4">Rental Form</h2>
 
         <form className="flex flex-col w-full space-y-4" onSubmit={handleSubmit}>
@@ -272,15 +271,7 @@ export default function RentalForm() {
             <button
               className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-all w-full"
               type="button"
-              onClick={() => {
-                setFormData({
-                  name: "",
-                  phone: "",
-                  tools: [{ toolId: "", count: "" }],
-                  time: "",
-                  amount: 0,
-                });
-              }}
+              onClick={handleClick}
             >
               New User
             </button>
