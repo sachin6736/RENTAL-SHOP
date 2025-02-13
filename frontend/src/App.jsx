@@ -18,6 +18,7 @@ function App() {
     <Route path='/addtool' element={<AddTool/>}/>
     <Route path='/toolslist' element={<ToolsList/>}/>
     <Route path='/OrderUpdate' element={<OrderUpdate/>}/>
+    <Route path='/OrderUpdate/:id' element={<OrderUpdate/>}/>
   </Routes>
   </BrowserRouter>
 }

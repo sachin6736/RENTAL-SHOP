@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 const OrderList = () => {
   const [orders, setOrders] = useState([
-    { id: 1, customer: 'John Doe', total: 150, status: 'Pending' },
-    { id: 2, customer: 'Jane Smith', total: 200, status: 'Processing' }
+    { id: 1, customer: 'John Doe',phone: 123456789, items: [{item: 'Hammer', count: 4}, {item: 'screw', count: 3}], date: '22/01/25', total: 150, status: 'Pending' },
+    { id: 2, customer: 'Jane Smith',phone: 123456789, items: [{item: 'Hammer', count: 4}], date: '22/01/25', total: 200, status: 'Processing' }
   ])
   
   const [selectedOrder, setSelectedOrder] = useState(null)
@@ -24,6 +24,7 @@ const OrderList = () => {
 
   const handleclick = order => {
     setSelectedOrder(order)
+    navigate(`/OrderUpdate/${order.id}`, {state: {order}})
   }
 
   return (
