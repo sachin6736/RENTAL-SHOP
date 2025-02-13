@@ -20,13 +20,12 @@ const ToolsList = () => {
     }
     fetchtool()
   }, [])
-  console.log('Updated tools', tools)
+  // console.log('Updated tools', tools)
 
   const navigate = useNavigate()
   const handleClick = () => navigate('/AddTool')
   return (
-    <div className='w-full h-full flex flex-col items-center bg-orange-500 '>
-
+    <div className='w-full h-[85vh] flex flex-col items-center '>
       <div className='w-full flex items-center justify-center p-4'>
         <button
           className='w-[150px] h-[40px] bg-blue-500 rounded-md text-white font-bold'
@@ -36,7 +35,7 @@ const ToolsList = () => {
         </button>
       </div>
 
-      <div className='w-full h-[80vh] flex-1 p-4 overflow-y-auto bg-red-500'>
+      <div className='w-full h-[80vh] flex-1 p-4 overflow-y-auto scrollbar-none'>
         <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  '>
           {tools.map(tool => (
             <div key={tool._id} className='flex justify-center'>

@@ -57,7 +57,7 @@ const Dashboard = () => {
             Order List
           </div>
         </div>
-        <div className='details'>
+        <div className='details max-w-6xl mx-auto p-4 overflow-hidden'>
           {/* <div className='p-4'> */}
             {activeComponent === 'Dashboard' && <RentalForm />}
             {activeComponent === 'Users' && <Users />}
