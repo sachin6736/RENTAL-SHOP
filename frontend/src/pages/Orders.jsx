@@ -1,12 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 import OrderUpdate from './OrderUpdate'
 import { useNavigate } from 'react-router-dom'
 
 const OrderList = () => {
-  const [orders, setOrders] = useState([
-    { id: 1, customer: 'John Doe',phone: 123456789, items: [{item: 'Hammer', count: 4}, {item: 'screw', count: 3}], date: '22/01/25', total: 150, status: 'Pending' },
-    { id: 2, customer: 'Jane Smith',phone: 123456789, items: [{item: 'Hammer', count: 4}], date: '22/01/25', total: 200, status: 'Processing' }
-  ])
+
+  const [orders, setOrders] = useState([])
+  useEffect(()=>{
+    const fetchRental = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/rental/getrental")
+        console.log("API Response", response.data)
+        setOrders(response.data)
+      } catch (error) {
+        console.log("Error fetching data", error)
+      }
+    }
+
+    fetchRental()
+  }, [])
+
+
+  
   
   const [selectedOrder, setSelectedOrder] = useState(null)
 
@@ -19,12 +34,12 @@ const OrderList = () => {
   }
 
   const navigate = useNavigate()
-  const handleClick = () => navigate('/OrderUpdate')
+  // const handleClick = () => navigate('/OrderUpdate')
 
 
   const handleclick = order => {
     setSelectedOrder(order)
-    navigate(`/OrderUpdate/${order.id}`, {state: {order}})
+    navigate(`/OrderUpdate/${order._id}`, {state: {order}})
   }
 
   return (
@@ -51,9 +66,9 @@ const OrderList = () => {
                 }`}
                 onClick={() => handleclick(order)}
               >
-                <td className='p-3 border'>{order.id}</td>
-                <td className='p-3 border'>{order.customer}</td>
-                <td className='p-3 border'>₹{order.total}</td>
+                <td className='p-3 border'>{order._id}</td>
+                <td className='p-3 border'>{order.user.name}</td>
+                <td className='p-3 border'>₹{order.amount}</td>
                 <td className='p-3 border'>
                   <select
                     value={order.status}
