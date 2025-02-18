@@ -14,12 +14,12 @@ const OrderForm = () => {
   }
 
   const [updatedOrder, setUpdatedOrder] = useState(() => ({
-    id: order.id || '',
-    customer: order.customer || '',
-    phone: order.phone || '',
-    items: Array.isArray(order.items) ? order.items : [],
-    date: order.date || '',
-    total: order.total || 0,
+    id: order._id || '',
+    customer: order.user.name || '',
+    phone: order.user.phone || '',
+    items: Array.isArray(order.tools) ? order.tools.name : [],
+    date: order.rentedAt || '',
+    total: order.amount || 0,
     discount: order.discount || 0,
     status: order.status || ''
   }))
