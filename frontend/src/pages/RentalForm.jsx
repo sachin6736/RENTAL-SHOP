@@ -196,8 +196,11 @@ export default function RentalForm() {
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           />
 
+
+          <div className="w-full max-h-40 overflow-y-auto">
           {/* Dynamic Tools Input */}
           {formData.tools.map((tool, index) => (
+
             <div key={index} className="flex space-x-4 items-center">
               {/* Tool Selection */}
               <select
@@ -241,6 +244,7 @@ export default function RentalForm() {
               )}
             </div>
           ))}
+          </div>
 
           {/* Time & Amount Fields */}
           <input
