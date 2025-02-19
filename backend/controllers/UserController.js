@@ -26,6 +26,7 @@ export const createuser = async (req, res, next) => {
 } ///creating user
 
 export const getusers = async (req, res, next) => {
+  console.log("Getallusers working");
   try {
     const allusers = await User.find()
     console.log('this is all users', allusers)
@@ -35,20 +36,32 @@ export const getusers = async (req, res, next) => {
   }
 }
 
+export const getusertoupdate= async (req,res,next)=>{
+  try{
+    console.log("Getuserupdate Working");
+     const id=req.params.id;
+     console.log("useeeerid:",id)
+     const updateuser=await User.findOne({_id:id})
+     console.log(updateuser);
+     res.status(200).json(updateuser)
+  }catch(error){
+      console.log(error);
+  }
+}
+
 export const edituser = async (req, res, next) => {
-  console.log('controller working')
+  console.log('Editusercontroller working')
   try {
     const id = req.params.id
+    console.log("Userid",id);
+    console.log("Request body",req.body);
     const { name, adress, phone, aadhar, profession } = req.body
+    
     const updated = await User.findByIdAndUpdate(
-      { _id: id },
-      { name: name },
-      { adress: adress },
-      { phone: phone },
-      { aadhar: aadhar },
-      { profession: profession },
+      id ,
+      { name, adress, phone, aadhar, profession },
       { new: true, runValidators: true }
-    )
+    );
     if (updated) {
       res.status(200).json('updated')
     } else {
