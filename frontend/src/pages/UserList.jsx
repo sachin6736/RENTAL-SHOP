@@ -47,7 +47,7 @@ export default function UserList() {
         <h2 className="text-xl font-semibold text-blue-800 mb-4 text-center">
           User List
         </h2>
-
+        <div className="w-full max-h-[600px] overflow-y-auto">
         {loading ? (
           <div className="text-center text-gray-500">Loading users...</div>
         ) : users.length > 0 ? (
@@ -94,6 +94,7 @@ export default function UserList() {
         ) : (
           <div className="text-center text-gray-500">No users found.</div>
         )}
+        </div>
       </div>
 
       {/* Footer Section */}
