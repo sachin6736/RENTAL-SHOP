@@ -1,7 +1,6 @@
 import User from '../models/user.js'
 import Rental from '../models/rent.js'
 import Tools from '../models/tools.js'
-// const Tool = require("../models/tools");
 
 export const createrental = async (req, res, next) => {
   console.log('create rental working')
@@ -71,8 +70,8 @@ export const getRental = async (req, res) => {
   try {
     console.log('Fetching rental data...')
     const rentals = await Rental.find()
-      .populate('user')
-      .populate('tools.toolId')
+      .populate('user' , 'name phone')
+      .populate('tools.toolId', 'name')
 
     if (!rentals.length) {
       console.log('No rental data found')
@@ -85,6 +84,7 @@ export const getRental = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 }
+
 
 // export const searchnumber = async(req,res,next)=>{
 //     console.log("mob controller working")
