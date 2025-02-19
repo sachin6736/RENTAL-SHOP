@@ -40,6 +40,13 @@ export default function Usercreation () {
       } else if (res.status === 201) {
         setButtonText('User Created');
         alert(result.message || 'User successfully created!');
+        setFormData({
+          name: '',
+          adress: '',
+          phone: '',
+          aadhar: '',
+          profession: ''
+        });
       } else {
         setButtonText('Error Occurred');
         alert(`Error: ${result.message || 'Something went wrong!'}`);
@@ -78,6 +85,7 @@ export default function Usercreation () {
             name='name'
             placeholder='Enter Name'
             onChange={handleChange}
+            value={formData.name}
           />
           <input
             className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -85,6 +93,7 @@ export default function Usercreation () {
             name='adress'
             placeholder='Enter Address'
             onChange={handleChange}
+            value={formData.adress}
           />
           <input
             className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -92,6 +101,7 @@ export default function Usercreation () {
             name='phone'
             placeholder='Enter Phone Number'
             onChange={handleChange}
+            value={formData.phone}
           />
           <input
             className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -99,6 +109,7 @@ export default function Usercreation () {
             name='aadhar'
             placeholder='Enter Aadhar Number'
             onChange={handleChange}
+            value={formData.aadhar}
           />
           <input
             className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -106,6 +117,7 @@ export default function Usercreation () {
             name='profession'
             placeholder='Enter Profession'
             onChange={handleChange}
+            value={formData.profession}
           />
           <button
             className='bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-all'
