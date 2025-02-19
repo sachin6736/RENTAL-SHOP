@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 const OrderForm = () => {
   const location = useLocation()
@@ -30,9 +31,28 @@ const OrderForm = () => {
     setUpdatedOrder({ ...updatedOrder, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = () => {
-    console.log('Updated Order:', updatedOrder)
-    alert('Order Updated Successfully!')
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/rental/update/${updatedOrder.id}`,
+        {
+          status: updatedOrder.status,
+          discount: updatedOrder.discount
+        }
+      )
+
+      console.log('Order updated successfully', response.data)
+
+      location.state.updateOrder(
+        updatedOrder.id,
+        updatedOrder.status,
+        updatedOrder.discount
+      )
+
+      alert('Order Updated Successfully!')
+    } catch (error) {
+      console.error('Error updating order:', error)
+    }
   }
 
   console.log(updatedOrder)
@@ -76,16 +96,13 @@ const OrderForm = () => {
 
         <div>
           <label className='text-gray-600 text-sm'>Order Items:</label>
+
           <ul className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'>
-            {updatedOrder.items?.length > 0 ? (
-              updatedOrder.items.map((item, index) => (
-                <li key={index} className='text-gray-700'>
-                  {item.item} (x{item.count})
-                </li>
-              ))
-            ) : (
-              <li className='text-gray-500'>No items available</li>
-            )}
+            {order?.tools?.map(tool => (
+              <p key={tool._id}>
+                Tool: {tool.toolId.name} | Count: {tool.count}
+              </p>
+            ))}
           </ul>
         </div>
 
@@ -107,10 +124,9 @@ const OrderForm = () => {
             onChange={handleChange}
             className='w-full p-2 border rounded-md bg-white'
           >
-            <option value='Pending'>Pending</option>
-            <option value='Processing'>Processing</option>
-            <option value='Shipped'>Shipped</option>
-            <option value='Delivered'>Delivered</option>
+            <option value='Pending'>Rented</option>
+            <option value='Processing'>Returned</option>
+            <option value='Shipped'>Missing</option>
           </select>
         </div>
 

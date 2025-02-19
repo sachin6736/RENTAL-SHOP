@@ -1,45 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import axios from "axios"
+import axios from 'axios'
 import OrderUpdate from './OrderUpdate'
 import { useNavigate } from 'react-router-dom'
 
 const OrderList = () => {
-
   const [orders, setOrders] = useState([])
-  useEffect(()=>{
+
+  useEffect(() => {
     const fetchRental = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/rental/getrental")
-        console.log("API Response", response.data)
+        const response = await axios.get(
+          'http://localhost:3000/rental/getrental'
+        )
+        console.log('API Response', response.data)
         setOrders(response.data)
       } catch (error) {
-        console.log("Error fetching data", error)
+        console.log('Error fetching data', error)
       }
     }
-
     fetchRental()
   }, [])
 
-
-  
-  
   const [selectedOrder, setSelectedOrder] = useState(null)
 
-  const handleStatusChange = (id, newStatus) => {
+  const updateOrder = (orderId, newStatus, newDiscount) => {
     setOrders(prevOrders =>
       prevOrders.map(order =>
-        order.id === id ? { ...order, status: newStatus } : order
+        order._id === orderId
+          ? { ...order, status: newStatus, discount: newDiscount }
+          : order
       )
     )
   }
 
   const navigate = useNavigate()
-  // const handleClick = () => navigate('/OrderUpdate')
-
 
   const handleclick = order => {
     setSelectedOrder(order)
-    navigate(`/OrderUpdate/${order._id}`, {state: {order}})
+    navigate(`/OrderUpdate/${order._id}`, { state: { order } })
   }
 
   return (
@@ -60,7 +58,7 @@ const OrderList = () => {
           <tbody>
             {orders.map((order, index) => (
               <tr
-                key={order.id}
+                key={order.id || order._id}
                 className={`text-gray-700 text-left ${
                   index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
                 }`}
@@ -69,25 +67,16 @@ const OrderList = () => {
                 <td className='p-3 border'>{order._id}</td>
                 <td className='p-3 border'>{order.user.name}</td>
                 <td className='p-3 border'>₹{order.amount}</td>
-                <td className='p-3 border'>
-                  <select
-                    value={order.status}
-                    onChange={e => handleStatusChange(order.id, e.target.value)}
-                    className='p-2 border rounded-md bg-white focus:outline-none'
-                  >
-                    <option value='Pending'>Pending</option>
-                    <option value='Processing'>Processing</option>
-                    <option value='Delivered'>Delivered</option>
-                  </select>
-                </td>
+                <td className='p-3 border'>{order.status}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {selectedOrder && <OrderUpdate order = {selectedOrder}/>}
-            
+      {selectedOrder && (
+        <OrderUpdate order={selectedOrder} updateOrder={updateOrder} />
+      )}
     </div>
   )
 }
