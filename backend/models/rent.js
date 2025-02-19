@@ -12,7 +12,7 @@ const rentalSchema = new mongoose.Schema({
         count: { type: Number, required: true },
       },
     ],
-    time: { type: String, required: true }, // E.g., "3 days"
+    time: { type: String, required: true }, 
     amount: { type: Number, required: true }, // Total amount for the rental
     status: {
       type: String,

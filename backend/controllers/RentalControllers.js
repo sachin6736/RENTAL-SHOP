@@ -32,15 +32,24 @@ export const createrental = async (req, res, next) => {
       amount,
       status: "rented",
     });
-
     await newRental.save();
-
     res.status(201).json("created rental");
   } catch (error) {
     console.error("Error creating rental:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const getrent=async(req,res,next)=>{
+  console.log("controller working")
+    try {
+      const details = await Rental.find();
+      res.status(200).json(details)
+    } catch (error) {
+      console.log(error)
+    }
+}
+
 
 export const search = async (req, res) => {
     console.log("search controller working")

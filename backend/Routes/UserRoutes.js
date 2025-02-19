@@ -11,7 +11,7 @@ router.delete('/deleteuser/:id',deleteuser)
 //tools router
 router.post('/createtools',createtool);//creating tool
 router.delete('/deletetool/:id',deletetool)//deleting tool
-router.get('/gettools',gettools)
+router.get('/gettools',gettools);
 
 
 export default router;
