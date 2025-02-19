@@ -3,7 +3,8 @@ import {
   createuser,
   getusers,
   edituser,
-  deleteuser
+  deleteuser,
+  getusertoupdate
 } from '../controllers/UserController.js'
 import {
   createtool,
@@ -14,8 +15,9 @@ const router = express.Router()
 
 //userroutes
 router.get('/getusers', getusers)
+router.get('/getuser/:id',getusertoupdate)
 router.post('/createuser', createuser) ///creating user
-router.post('/edituser/:id', edituser) ///editing user
+router.put('/edituser/:id', edituser) ///editing user
 router.delete('/deleteuser/:id', deleteuser)
 //tools router
 router.post('/createtools', createtool) //creating tool
