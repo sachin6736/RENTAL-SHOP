@@ -15,9 +15,9 @@ const OrderForm = () => {
 
   const [updatedOrder, setUpdatedOrder] = useState(() => ({
     id: order._id || '',
-    customer: order.user.name || '',
-    phone: order.user.phone || '',
-    items: Array.isArray(order.tools) ? order.tools.name : [],
+    customer: order.user?.name || 'Unknown',
+    phone: order.user?.phone || 'Unknown',
+    items: Array.isArray(order.tools) ? order.tools.map(tool => tool.name) : [],
     date: order.rentedAt || '',
     total: order.amount || 0,
     discount: order.discount || 0,
