@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard';
 import RentalForm from './pages/RentalForm';
 import AddTool from './pages/AddTool'
 import ToolsList from './pages/ToolsList';
-import OrderUpdate from './pages/OrderUpdate'
 
 function App() {
   return <BrowserRouter>
@@ -17,8 +16,6 @@ function App() {
     <Route path='/rentalform' element={<RentalForm/>}/>
     <Route path='/addtool' element={<AddTool/>}/>
     <Route path='/toolslist' element={<ToolsList/>}/>
-    <Route path='/OrderUpdate' element={<OrderUpdate/>}/>
-    <Route path='/OrderUpdate/:id' element={<OrderUpdate/>}/>
   </Routes>
   </BrowserRouter>
 }
