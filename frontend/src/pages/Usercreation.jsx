@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function Usercreation () {
-  const [buttonText, setButtonText] = useState('Proceed')
+export default function Usercreation() {
+  const { id } = useParams(); 
+  console.log(id);
+  
+  const navigate = useNavigate();
+  const [buttonText, setButtonText] = useState("Proceed");
   const [formData, setFormData] = useState({
     name: '',
     adress: '',
@@ -10,52 +15,47 @@ export default function Usercreation () {
     profession: ''
   })
 
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:3000/user/getuser/${id}`)
+        .then((res) => res.json())
+        .then((data) => setFormData(data))
+        .catch((error) => console.error("Error fetching user:", error));
+    }
+  }, [id]);
+  console.log(formData);
+  
+  
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText('Processing...');
-  
+    const url = id
+      ? `http://localhost:3000/user/edituser/${id}` 
+      : "http://localhost:3000/user/createuser"; 
+
+    const method = id ? "PUT" : "POST";
+     
     try {
-      const res = await fetch('http://localhost:3000/user/createuser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const res = await fetch(url, {
+        method: method,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
-      const result = await res.json();  // Parse JSON response
-  
-      console.log('Server Response:', res.status, result);
-  
+      console.log(res);
+      
+
       if (res.status === 401) {
-        setButtonText('All fields are necessary');
-        alert(result.message || 'All fields are required.');
-      } else if (res.status === 409) {
-        setButtonText('User Already Exists');
-        alert(result.message || 'User already exists! Try using a different phone or Aadhar.');
-      } else if (res.status === 201) {
-        setButtonText('User Created');
-        alert(result.message || 'User successfully created!');
-        setFormData({
-          name: '',
-          adress: '',
-          phone: '',
-          aadhar: '',
-          profession: ''
-        });
-      } else {
-        setButtonText('Error Occurred');
-        alert(`Error: ${result.message || 'Something went wrong!'}`);
+        setButtonText("All fields necessary");
+      } else if (res.status === 200 || res.status === 201) {
+        setButtonText(id ? "User Updated" : "User Created");
+        setTimeout(() => navigate("/"), 1500); // Redirect after success
       }
-  
     } catch (error) {
-      console.error('Error:', error);
-      setButtonText('Error Occurred');
-      alert('Something went wrong. Please try again later.');
+      console.log("Error:", error);
     }
   };
   
@@ -71,53 +71,58 @@ export default function Usercreation () {
           Efficient and affordable tool rentals
         </p>
       </header>
-      <div className='flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full'>
-        <h2 className='text-xl font-semibold text-blue-800 mb-4'>
-          User Creation
-        </h2>
+      <div className="flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full">
+      <h2 className="text-xl font-semibold text-blue-800 mb-4">
+        {id ? "Edit User" : "User Creation"}
+      </h2>
         <form
           className='flex flex-col w-full space-y-4'
           onSubmit={handleSubmit}
         >
           <input
-            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-            type='text'
-            name='name'
-            placeholder='Enter Name'
-            onChange={handleChange}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="name"
             value={formData.name}
+            placeholder="Enter Name"
+            onChange={handleChange}
+            
           />
           <input
-            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-            type='text'
-            name='adress'
-            placeholder='Enter Address'
-            onChange={handleChange}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="adress"
             value={formData.adress}
+            placeholder="Enter Address"
+            onChange={handleChange}
+            
           />
           <input
-            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-            type='text'
-            name='phone'
-            placeholder='Enter Phone Number'
-            onChange={handleChange}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="phone"
             value={formData.phone}
+            placeholder="Enter Phone Number"
+            onChange={handleChange}
+            
           />
           <input
-            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-            type='text'
-            name='aadhar'
-            placeholder='Enter Aadhar Number'
-            onChange={handleChange}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="aadhar"
             value={formData.aadhar}
+            placeholder="Enter Aadhar Number"
+            onChange={handleChange}
+            
           />
           <input
-            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-            type='text'
-            name='profession'
-            placeholder='Enter Profession'
-            onChange={handleChange}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="profession"
             value={formData.profession}
+            placeholder="Enter Profession"
+            onChange={handleChange}
+            
           />
           <button
             className='bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-all'

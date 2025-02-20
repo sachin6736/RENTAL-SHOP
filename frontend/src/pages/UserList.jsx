@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function UserList () {
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
+export default function UserList() {
+  const navigate=useNavigate()
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch users from the backend
   useEffect(() => {
@@ -37,6 +39,10 @@ export default function UserList () {
       console.log('error occured during deletion', error)
     }
   }
+
+  const handleEdit = (userId) => {
+    navigate(`/edituser/${userId}`); 
+  };
 
   return (
     <div className='w-full h-full p-4 flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
