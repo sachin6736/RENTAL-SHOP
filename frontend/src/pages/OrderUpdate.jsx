@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Orders from './Orders'
 
 const OrderForm = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const order = location.state?.order || {
     id: '',
     customer: '',
@@ -25,6 +27,7 @@ const OrderForm = () => {
     status: order.status || ''
   }))
 
+  
   const totalAmount = updatedOrder.total - (updatedOrder.discount || 0)
 
   const handleChange = e => {
@@ -32,6 +35,7 @@ const OrderForm = () => {
   }
 
   const handleSubmit = async () => {
+    console.log('updating orderid: ', updatedOrder.id)
     try {
       const response = await axios.put(
         `http://localhost:3000/rental/update/${updatedOrder.id}`,
@@ -42,16 +46,14 @@ const OrderForm = () => {
       )
 
       console.log('Order updated successfully', response.data)
-
-      location.state.updateOrder(
-        updatedOrder.id,
-        updatedOrder.status,
-        updatedOrder.discount
-      )
-
+      
+      navigate('/', { state: { activeComponent: 'Orders' } });
       alert('Order Updated Successfully!')
     } catch (error) {
-      console.error('Error updating order:', error)
+      console.error(
+        'Error updating order:',
+        error.response ? error.response.data : error.message
+      )
     }
   }
 
@@ -119,14 +121,14 @@ const OrderForm = () => {
         <div>
           <label className='text-gray-600 text-sm'>Order Status:</label>
           <select
-            name='orderStatus'
+            name='status'
             value={updatedOrder.status}
             onChange={handleChange}
             className='w-full p-2 border rounded-md bg-white'
           >
-            <option value='Pending'>Rented</option>
-            <option value='Processing'>Returned</option>
-            <option value='Shipped'>Missing</option>
+            <option value='rented'>Rented</option>
+            <option value='returned'>Returned</option>
+            <option value='missing'>Missing</option>
           </select>
         </div>
 
