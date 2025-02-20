@@ -41,7 +41,7 @@ const ToolsList = () => {
             <div key={tool._id} className='flex justify-center'>
               <div className='w-[250px] h-[300px] bg-white rounded-md shadow-lg flex flex-col items-center overflow-hidden'>
                 <img
-                  src={tool.image}
+                  src={`http://localhost:3000/${tool.image}`}
                   alt='tool-image'
                   className='w-full h-40 object-cover rounded-t-md'
                 />
