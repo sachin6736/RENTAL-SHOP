@@ -1,15 +1,31 @@
 import Tools from '../models/tools.js'
+import multer from 'multer';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save files to 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Rename file
+  },
+});
+
+const upload = multer({ storage });
+
+
 
 export const createtool = async (req, res, next) => {
-  const { name, count, price } = req.body
   console.log('controller working', req.body)
+  const { name, count, price } = req.body
+  const image = req.file ? req.file.path : ""; 
   if (!name || !count) {
     res.status(401).json('all fields necessary')
   } else {
     const newtools = new Tools({
       name: name,
       count: count,
-      price: price
+      price: price,
+      image: image
     })
     try {
       await newtools.save()
