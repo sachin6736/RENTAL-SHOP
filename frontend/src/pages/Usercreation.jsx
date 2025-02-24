@@ -53,6 +53,7 @@ export default function Usercreation() {
       } else if (res.status === 200 || res.status === 201) {
         setButtonText(id ? "User Updated" : "User Created");
         setTimeout(() => navigate("/"), 1500); // Redirect after success
+        setFormData("");
       }
     } catch (error) {
       console.log("Error:", error);
