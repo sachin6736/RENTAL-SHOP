@@ -60,8 +60,6 @@ export default function Usercreation() {
     }
   };
   
-  
-
   return (
     <div className='w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
       <header className='bg-blue-800 w-full py-4 text-center shadow-md'>
