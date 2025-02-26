@@ -93,7 +93,8 @@
     const { id } = req.params;
     console.log("id",id)
     const updateData  = req.body;
-  
+    
+    
     try {
       const updatedRental = await Rental.findByIdAndUpdate(
         id,
@@ -104,7 +105,8 @@
       if (!updatedRental) {
         return res.status(404).json({ message: 'Order not found' });
       }
-  
+   
+      console.log('Updated Data : ',updatedRental);
       res.json(updatedRental);
     } catch (error) {
       res.status(500).json({ message: 'Server Error', error });
