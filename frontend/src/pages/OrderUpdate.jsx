@@ -13,7 +13,8 @@ const OrderForm = () => {
     items: [],
     date: '',
     total: 0,
-    status: ''
+    status: '',
+    note: ''
   }
 
   const [updatedOrder, setUpdatedOrder] = useState(() => ({
@@ -24,13 +25,14 @@ const OrderForm = () => {
     date: order.rentedAt || '',
     total: order.amount || 0,
     discount: order.discount || 0,
-    status: order.status || ''
+    status: order.status || '',
+    note: order.note || ''
   }))
 
-  
   const totalAmount = updatedOrder.total - (updatedOrder.discount || 0)
 
   const handleChange = e => {
+    e.preventDefault()
     setUpdatedOrder({ ...updatedOrder, [e.target.name]: e.target.value })
   }
 
@@ -41,14 +43,16 @@ const OrderForm = () => {
         `http://localhost:3000/rental/update/${updatedOrder.id}`,
         {
           status: updatedOrder.status,
-          discount: updatedOrder.discount
+          discount: updatedOrder.discount,
+          amount: totalAmount,
+          note: updatedOrder.note
         }
       )
 
       console.log('Order updated successfully', response.data)
-      
-      navigate('/', { state: { activeComponent: 'Orders' } });
+      navigate('/', { state: { updatedOrder: response.data } });
       alert('Order Updated Successfully!')
+
     } catch (error) {
       console.error(
         'Error updating order:',
@@ -162,8 +166,17 @@ const OrderForm = () => {
           <input
             type='text'
             value={totalAmount}
-            disabled
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed font-bold'
+          />
+        </div>
+
+        <div>
+          <label className='text-gray-600 text-sm font-semibold'>Note :</label>
+          <input
+            type='text'
+            value={updatedOrder.note}
+            onChange={handleChange}
+            className='w-full p-2 border rounded-md bg-gray-100 font-bold text-red-500'
           />
         </div>
 

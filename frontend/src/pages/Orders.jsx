@@ -22,7 +22,7 @@ const OrderList = () => {
       }
     }
     fetchRental()
-  }, [])
+  }, [location.pathname])
 
   // Update orders based on navigation state
   useEffect(() => {
@@ -56,6 +56,7 @@ const OrderList = () => {
               <th className='p-3 w-1/3'>Customer</th>
               <th className='p-3 w-1/4'>Total Price (₹)</th>
               <th className='p-3 w-1/4'>Status</th>
+              <th className='p-3 w-1/4'>Note</th>
             </tr>
           </thead>
 
@@ -73,6 +74,7 @@ const OrderList = () => {
                 <td className='p-3 border'>{order.user.name}</td>
                 <td className='p-3 border'>₹{order.amount}</td>
                 <td className='p-3 border'>{order.status}</td>
+                <td className='p-3 border'>{order.note || 'No note'}</td>
               </tr>
             ))}
           </tbody>
