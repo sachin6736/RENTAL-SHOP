@@ -52,7 +52,7 @@ const OrderList = () => {
           {/* Table Header */}
           <thead>
             <tr className='bg-blue-600 text-white text-left'>
-              <th className='p-3 w-1/6'>Order ID</th>
+              {/* <th className='p-3 w-1/6'>Order ID</th> */}
               <th className='p-3 w-1/3'>Customer</th>
               <th className='p-3 w-1/4'>Total Price (₹)</th>
               <th className='p-3 w-1/4'>Status</th>
@@ -70,11 +70,11 @@ const OrderList = () => {
                 }`}
                 onClick={() => handleclick(order)}
               >
-                <td className='p-3 border'>{order._id}</td>
+                {/* <td className='p-3 border'>{order._id}</td> */}
                 <td className='p-3 border'>{order.user.name}</td>
                 <td className='p-3 border'>₹{order.amount}</td>
                 <td className='p-3 border'>{order.status}</td>
-                <td className='p-3 border'>{order.note || 'No note'}</td>
+                <td className='p-3 border note-cell'>{order.note || 'No note'}</td>
               </tr>
             ))}
           </tbody>

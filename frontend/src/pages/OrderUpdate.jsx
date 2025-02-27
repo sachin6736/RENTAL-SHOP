@@ -50,9 +50,8 @@ const OrderForm = () => {
       )
 
       console.log('Order updated successfully', response.data)
-      navigate('/', { state: { updatedOrder: response.data } });
+      navigate('/', { state: { updatedOrder: response.data } })
       alert('Order Updated Successfully!')
-
     } catch (error) {
       console.error(
         'Error updating order:',
@@ -75,7 +74,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={updatedOrder.id}
-            disabled
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'
           />
         </div>
@@ -85,7 +84,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={updatedOrder.customer}
-            disabled
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'
           />
         </div>
@@ -95,7 +94,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={updatedOrder.phone}
-            disabled
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'
           />
         </div>
@@ -117,7 +116,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={updatedOrder.date}
-            disabled
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'
           />
         </div>
@@ -141,7 +140,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={updatedOrder.total}
-            disabled
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed'
           />
         </div>
@@ -166,6 +165,7 @@ const OrderForm = () => {
           <input
             type='text'
             value={totalAmount}
+            readOnly
             className='w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed font-bold'
           />
         </div>
@@ -176,7 +176,8 @@ const OrderForm = () => {
             type='text'
             value={updatedOrder.note}
             onChange={handleChange}
-            className='w-full p-2 border rounded-md bg-gray-100 font-bold text-red-500'
+            name='note'
+            className='w-full p-2 border rounded-md bg-white'
           />
         </div>
 
