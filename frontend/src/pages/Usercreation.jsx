@@ -71,7 +71,7 @@ export default function Usercreation() {
           adress: '',
           phone: '',
           aadhar: '',
-          profession: ''
+          profession: '',
         });
         setAadharFile(null);
       }

@@ -77,7 +77,8 @@ export const edituser = async (req, res, next) => {
 
     const { name, adress, phone, aadhar, profession } = req.body;
     const aadharFile = req.file ? req.file.path : null;
-
+    console.log(aadharFile);
+    
     const updateData = { name, adress, phone, aadhar, profession };
     if (aadharFile) {
       updateData.aadharFile = aadharFile;

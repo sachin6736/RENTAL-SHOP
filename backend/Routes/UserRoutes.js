@@ -22,7 +22,7 @@ const router = express.Router()
 router.get('/getusers', getusers)
 router.get('/getuser/:id',getusertoupdate)
 router.post('/createuser',upload.single("aadharFile"), createuser); 
-router.put('/edituser/:id', edituser); 
+router.put('/edituser/:id', upload.single("aadharFile"),edituser); 
 router.delete('/deleteuser/:id', deleteuser)
 //tools router
 router.post('/createtools',upload.single("image"), createtool) //creating tool
