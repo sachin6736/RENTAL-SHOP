@@ -24,6 +24,24 @@ const ToolsList = () => {
 
   const navigate = useNavigate()
   const handleClick = () => navigate('/AddTool')
+
+  const handleDelete=  async(toolId)=>{
+        try{
+          const res=await fetch(`http://localhost:3000/user/deletetool/${toolId}`,
+            {
+              method:"DELETE",
+            });
+            console.log(res);
+            if(res.status===200){
+              setTools(tools.filter((item)=>item._id!==toolId))
+            }else{
+              alert("failed to delete tool")
+            }
+      }catch(error){
+            console.log("Error during delete tool",error);
+      }
+  }
+  console.log(tools);
   return (
     <div className='w-full h-[85vh] flex flex-col items-center '>
       <div className='w-full flex items-center justify-center p-4'>
@@ -41,7 +59,7 @@ const ToolsList = () => {
             <div key={tool._id} className='flex justify-center'>
               <div className='w-[250px] h-[300px] bg-white rounded-md shadow-lg flex flex-col items-center overflow-hidden'>
                 <img
-                  src={tool.image}
+                  src={`http://localhost:3000/${tool.image}`}
                   alt='tool-image'
                   className='w-full h-40 object-cover rounded-t-md'
                 />
@@ -51,6 +69,9 @@ const ToolsList = () => {
                     <p>{tool.price}</p>
                     <p className='text-red-600'>{tool.count} left</p>
                   </div>
+                </div>
+                <div className='w-16 h-6 flex items-center justify-center'>
+                  <button onClick={()=>handleDelete(tool._id)} className='bg-[#ff3f56] rounded-xl text-xs w-full h-full text-white'>Remove</button>
                 </div>
               </div>
             </div>

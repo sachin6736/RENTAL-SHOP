@@ -28,5 +28,5 @@ const rentalSchema = new mongoose.Schema({
   returnedAt: { type: Date } // Set when the tool is returned
 })
 
-const Rental = mongoose.model('Rental', rentalSchema)
+const Rental = mongoose.model('Rental',rentalSchema)
 export default Rental

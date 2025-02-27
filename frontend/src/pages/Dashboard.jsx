@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Users from './UserList'
 import Tools from './ToolsList'
 import Orders from './Orders'
@@ -8,6 +8,14 @@ import RentalForm from './RentalForm'
 
 const Dashboard = () => {
   const [activeComponent, setActiveComponent] = useState('Dashboard')
+
+  // Check for incoming state when component mounts
+  useEffect(() => {
+    const location = window.history.state // Accessing window history state
+    if (location && location.activeComponent) {
+      setActiveComponent(location.activeComponent) // Set active component based on navigation state
+    }
+  }, [])
 
   return (
     <div className='dashboard'>
@@ -59,10 +67,10 @@ const Dashboard = () => {
         </div>
         <div className='details max-w-6xl mx-auto p-4 overflow-hidden'>
           {/* <div className='p-4'> */}
-            {activeComponent === 'Dashboard' && <RentalForm />}
-            {activeComponent === 'Users' && <Users />}
-            {activeComponent === 'Tools' && <Tools />}
-            {activeComponent === 'Orders' && <Orders />}
+          {activeComponent === 'Dashboard' && <RentalForm />}
+          {activeComponent === 'Users' && <Users />}
+          {activeComponent === 'Tools' && <Tools />}
+          {activeComponent === 'Orders' && <Orders />}
           {/* </div> */}
         </div>
       </div>

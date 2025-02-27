@@ -1,10 +1,8 @@
-import User from '../models/user.js'
-import Rental from '../models/rent.js'
-import Tools from '../models/tools.js'
-// const Tool = require("../models/tools");
+  import User from '../models/user.js'
+  import Rental from '../models/rent.js'
+  import Tools from '../models/tools.js'
 
 export const createrental = async (req, res, next) => {
-  console.log("this is the dat sent",req.body)
   console.log('create rental working')
   try {
     const { name, phone, tools, time, amount } = req.body
@@ -19,7 +17,7 @@ export const createrental = async (req, res, next) => {
         ).toString(),
         profession: 'Unknown'
       })
-      user = await user.save()
+      await user.save()
     }
     for (const rentedTool of tools) {
       const tool = await Tools.findById(rentedTool.toolId)
@@ -39,64 +37,78 @@ export const createrental = async (req, res, next) => {
       status: 'rented'
     })
 
-    await newRental.save()
+      await newRental.save()
 
-    res.status(201).json('created rental')
-  } catch (error) {
-    console.error('Error creating rental:', error)
-    res.status(500).json({ message: 'Internal Server Error' })
-  }
-}
-
-export const search = async (req, res) => {
-  console.log('search controller working')
-  const { name } = req.query
-  if (!name) return res.status(400).json('Name is required')
-
-  try {
-    const users = await User.find({
-      name: { $regex: `^${name}`, $options: 'i' }
-    })
-
-    if (users.length === 0)
-      return res.status(404).json({ message: 'No users found' })
-
-    res.json(users)
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error })
-  }
-}
-
-//controller to fetch rental data
-export const getRental = async (req, res) => {
-  try {
-    console.log('Fetching rental data...')
-    const rentals = await Rental.find()
-      .populate('user')
-      .populate('tools.toolId')
-
-    if (!rentals.length) {
-      console.log('No rental data found')
-      return res.status(404).json({ message: 'No rentals found' })
+      res.status(201).json('created rental')
+    } catch (error) {
+      console.error('Error creating rental:', error)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
-
-    res.json(rentals)
-  } catch (error) {
-    console.error('Error fetching rentals:', error)
-    res.status(500).json({ message: 'Internal server error' })
   }
-}
 
-// export const searchnumber = async(req,res,next)=>{
-//     console.log("mob controller working")
-//     const {phone}=req.query;
-//     if(!phone) return res.status(400).json("mobile is required");
-//     try {
-//        const users = await User.find({phone: {$regex: `^${phone}`, $options:"i"  }})
-//        if (users.length === 0) return res.status(404).json({ message: "No users found" });
+  export const search = async (req, res) => {
+    console.log('search controller working')
+    const { name } = req.query
+    if (!name) return res.status(400).json('Name is required')
 
-//       res.json(users);
-//     } catch (error) {
-//         res.status(500).json({ message: "Server error", error });
-//     }
-// }
+    try {
+      const users = await User.find({
+        name: { $regex: `^${name}`, $options: 'i' }
+      })
+
+      if (users.length === 0)
+        return res.status(404).json({ message: 'No users found' })
+
+      res.json(users)
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error })
+    }
+  }
+
+  //controller to fetch rental data
+  export const getRental = async (req, res) => {
+    try {
+      console.log('Fetching rental data...')
+      const rentals = await Rental.find()
+        .populate('user', 'name phone')
+        .populate('tools.toolId', 'name')
+
+      if (!rentals.length) {
+        console.log('No rental data found')
+        return res.status(404).json({ message: 'No rentals found' })
+      }
+
+      res.json(rentals)
+    } catch (error) {
+      console.error('Error fetching rentals:', error)
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  //updating rental
+  export const updateRental = async (req, res) => {
+
+    console.log('Received update request for ID:', req.params.id);
+
+    const { id } = req.params;
+    console.log("id",id)
+    const updateData  = req.body;
+  
+    try {
+      const updatedRental = await Rental.findByIdAndUpdate(
+        id,
+        updateData,
+        { new: true }
+      );
+  
+      if (!updatedRental) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+  
+      res.json(updatedRental);
+    } catch (error) {
+      res.status(500).json({ message: 'Server Error', error });
+    }
+  };
+
+

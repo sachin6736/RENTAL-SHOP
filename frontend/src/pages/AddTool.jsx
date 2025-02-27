@@ -5,24 +5,33 @@ export default function AddTool() {
     name: "",
     count: "",
     price: "",
+    image:null
   });
 
-  // Handle input changes
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setToolData({ ...toolData, [name]: value });
   };
 
-  // Handle form submission
+  const handleImageChange = (e) => {
+    setToolData({ ...toolData, image: e.target.files[0] });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Create FormData object to send files
+    const formData = new FormData();
+    formData.append("name", toolData.name);
+    formData.append("count", toolData.count);
+    formData.append("price", toolData.price);
+    formData.append("image", toolData.image);
+
     try {
       const res = await fetch("http://localhost:3000/user/createtools", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(toolData),
+        body: formData,
       });
 
       if (res.status === 201) {
@@ -31,6 +40,7 @@ export default function AddTool() {
           name: "",
           count: "",
           price: "",
+          image: null,
         });
       } else {
         alert("Failed to add tool. Please try again.");
@@ -77,6 +87,13 @@ export default function AddTool() {
             value={toolData.price}
             placeholder="Tool price"
             onChange={handleChange}
+          />
+          <input
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
           />
 
           <button
