@@ -4,6 +4,7 @@ import Tools from '../models/tools.js'
 // const Tool = require("../models/tools");
 
 export const createrental = async (req, res, next) => {
+  console.log("this is the dat sent",req.body)
   console.log('create rental working')
   try {
     const { name, phone, tools, time, amount } = req.body
@@ -18,7 +19,7 @@ export const createrental = async (req, res, next) => {
         ).toString(),
         profession: 'Unknown'
       })
-      await user.save()
+      user = await user.save()
     }
     for (const rentedTool of tools) {
       const tool = await Tools.findById(rentedTool.toolId)
