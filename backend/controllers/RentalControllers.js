@@ -36,8 +36,11 @@ export const createrental = async (req, res, next) => {
       if (!tool || tool.count < rentedTool.count) {
         return res
           .status(400)
-          .json({ message: `Not enough stock for ${rentedTool.toolId}` })
+          .json({
+            message: `Not enough stock for ${tool ? tool.name : 'Unknown Tool'}`
+          })
       }
+
       tool.count -= rentedTool.count // Reduce tool count
       await tool.save()
     }
