@@ -14,6 +14,8 @@ export default function RentalForm () {
   const [matchingUsers, setMatchingUsers] = useState([]) // Store the matching users
   const userListRef = useRef(null) // Ref for the matching users list
 
+  const [stockError, setStockError] = useState('')
+
   // Fetch available tools from the backend
   useEffect(() => {
     const fetchTools = async () => {
@@ -123,6 +125,8 @@ export default function RentalForm () {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setStockError('')
+
     try {
       const response = await fetch('http://localhost:3000/rental/giverent', {
         method: 'POST',
@@ -131,6 +135,9 @@ export default function RentalForm () {
         },
         body: JSON.stringify(formData)
       })
+
+      const data = await response.json()
+      console.log('Responce : ', data)
 
       if (response.ok) {
         alert('Rental created successfully!')
@@ -142,11 +149,11 @@ export default function RentalForm () {
           amount: 0
         })
       } else {
-        alert('Error creating rental.')
+        setStockError(data.message || 'Error creating rental.')
       }
     } catch (error) {
       console.error('Error submitting rental form:', error)
-      alert('Error submitting rental form.')
+      setStockError('Error submitting rental form.')
     }
   }
 
@@ -270,6 +277,9 @@ export default function RentalForm () {
             placeholder='Total Amount'
             readOnly
           />
+          {stockError && (
+            <p className='text-red-500 font-semibold'>{stockError}</p>
+          )}
 
           {/* Buttons */}
           <div className='flex space-x-4'>
