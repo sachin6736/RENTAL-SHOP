@@ -13,14 +13,16 @@ import {
 } from '../controllers/ToolsController.js'
 
 import multer from 'multer'
+
 const upload = multer({ dest: "uploads/" });
+
 const router = express.Router()
 
 //userroutes
 router.get('/getusers', getusers)
 router.get('/getuser/:id',getusertoupdate)
-router.post('/createuser', createuser) ///creating user
-router.put('/edituser/:id', edituser) ///editing user
+router.post('/createuser',upload.single("aadharFile"), createuser); 
+router.put('/edituser/:id', edituser); 
 router.delete('/deleteuser/:id', deleteuser)
 //tools router
 router.post('/createtools',upload.single("image"), createtool) //creating tool
