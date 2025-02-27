@@ -47,7 +47,7 @@ const OrderList = () => {
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
-      <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg'>
+      <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg overflow-y-auto scrollbar-none'>
         <table className='w-full border-collapse'>
           {/* Table Header */}
           <thead>
