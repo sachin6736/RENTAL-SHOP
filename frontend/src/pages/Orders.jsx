@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import OrderUpdate from './OrderUpdate'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useNavigate, useLocation } from 'react-router-dom'
 
 const OrderList = () => {
   const [orders, setOrders] = useState([])
