@@ -17,7 +17,7 @@ const rentalSchema = new mongoose.Schema({
       count: { type: Number, required: true }
     }
   ],
-  time: { type: String, required: true }, // E.g., "3 days"
+  time: { type: Number, required: true }, // E.g., "3 days"
   amount: { type: Number, required: true }, // Total amount for the rental
   status: {
     type: String,
@@ -25,7 +25,8 @@ const rentalSchema = new mongoose.Schema({
     default: 'rented'
   },
   rentedAt: { type: Date, default: Date.now }, // Timestamp of when the rent happened
-  returnedAt: { type: Date } // Set when the tool is returned
+  returnedAt: { type: Date }, // Set when the tool is returned
+  note: {type: String}
 })
 
 const Rental = mongoose.model('Rental',rentalSchema)

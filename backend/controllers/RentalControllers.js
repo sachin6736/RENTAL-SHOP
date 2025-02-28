@@ -2,40 +2,40 @@
   import Rental from '../models/rent.js'
   import Tools from '../models/tools.js'
 
-export const createrental = async (req, res, next) => {
-  console.log('create rental working')
-  try {
-    const { name, phone, tools, time, amount } = req.body
-    let user = await User.findOne({ phone })
-    if (!user) {
-      user = new User({
-        name,
-        phone,
-        address: 'ask later',
-        aadhar: Math.floor(
-          100000000000 + Math.random() * 900000000000
-        ).toString(),
-        profession: 'Unknown'
-      })
-      await user.save()
-    }
-    for (const rentedTool of tools) {
-      const tool = await Tools.findById(rentedTool.toolId)
-      if (!tool || tool.count < rentedTool.count) {
-        return res
-          .status(400)
-          .json({ message: `Not enough stock for ${rentedTool.toolId}` })
+  export const createrental = async (req, res, next) => {
+    console.log('create rental working')
+    try {
+      const { name, phone, tools, time, amount } = req.body
+      let user = await User.findOne({ phone })
+      if (!user) {
+        user = new User({
+          name,
+          phone,
+          address: 'ask later',
+          aadhar: Math.floor(
+            100000000000 + Math.random() * 900000000000
+          ).toString(),
+          profession: 'Unknown'
+        })
+        await user.save()
       }
-      tool.count -= rentedTool.count // Reduce tool count
-      await tool.save()
-    }
-    const newRental = new Rental({
-      user: user._id,
-      tools,
-      time,
-      amount,
-      status: 'rented'
-    })
+      for (const rentedTool of tools) {
+        const tool = await Tools.findById(rentedTool.toolId)
+        if (!tool || tool.count < rentedTool.count) {
+          return res
+            .status(400)
+            .json({ message: `Not enough stock for ${rentedTool.toolId}` })
+        }
+        tool.count -= rentedTool.count // Reduce tool count
+        await tool.save()
+      }
+      const newRental = new Rental({
+        user: user._id,
+        tools,
+        time,
+        amount,
+        status: 'rented'
+      })
 
       await newRental.save()
 
