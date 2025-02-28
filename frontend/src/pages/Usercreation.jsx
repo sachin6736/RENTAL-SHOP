@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function Usercreation() {
@@ -13,7 +13,8 @@ export default function Usercreation() {
     phone: '',
     aadhar: '',
     profession: ''
-  })
+  });
+  const [aadharFile, setAadharFile] = useState(null); 
 
   useEffect(() => {
     if (id) {
@@ -24,42 +25,60 @@ export default function Usercreation() {
     }
   }, [id]);
   console.log(formData);
-  
-  
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.type === "file") {
+      setAadharFile(e.target.files[0]); 
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("adress", formData.adress);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("aadhar", formData.aadhar);
+    formDataToSend.append("profession", formData.profession);
+    
+    if (aadharFile) {
+      formDataToSend.append("aadharFile", aadharFile); 
+    }
+
     const url = id
       ? `http://localhost:3000/user/edituser/${id}` 
       : "http://localhost:3000/user/createuser"; 
 
     const method = id ? "PUT" : "POST";
-     
+    
     try {
       const res = await fetch(url, {
         method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formDataToSend, // Send as FormData
       });
       console.log(res);
-      
 
       if (res.status === 401) {
         setButtonText("All fields necessary");
       } else if (res.status === 200 || res.status === 201) {
         setButtonText(id ? "User Updated" : "User Created");
-        setTimeout(() => navigate("/"), 1500); // Redirect after success
+        setTimeout(() => navigate("/"), 1500);
+        setFormData({
+          name: '',
+          adress: '',
+          phone: '',
+          aadhar: '',
+          profession: '',
+        });
+        setAadharFile(null);
       }
     } catch (error) {
       console.log("Error:", error);
     }
   };
-  
-  
 
   return (
     <div className='w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
@@ -72,12 +91,13 @@ export default function Usercreation() {
         </p>
       </header>
       <div className="flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full">
-      <h2 className="text-xl font-semibold text-blue-800 mb-4">
-        {id ? "Edit User" : "User Creation"}
-      </h2>
+        <h2 className="text-xl font-semibold text-blue-800 mb-4">
+          {id ? "Edit User" : "User Creation"}
+        </h2>
         <form
           className='flex flex-col w-full space-y-4'
           onSubmit={handleSubmit}
+          encType="multipart/form-data"
         >
           <input
             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -86,7 +106,6 @@ export default function Usercreation() {
             value={formData.name}
             placeholder="Enter Name"
             onChange={handleChange}
-            
           />
           <input
             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -95,7 +114,6 @@ export default function Usercreation() {
             value={formData.adress}
             placeholder="Enter Address"
             onChange={handleChange}
-            
           />
           <input
             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -104,7 +122,6 @@ export default function Usercreation() {
             value={formData.phone}
             placeholder="Enter Phone Number"
             onChange={handleChange}
-            
           />
           <input
             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -113,7 +130,6 @@ export default function Usercreation() {
             value={formData.aadhar}
             placeholder="Enter Aadhar Number"
             onChange={handleChange}
-            
           />
           <input
             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -122,7 +138,14 @@ export default function Usercreation() {
             value={formData.profession}
             placeholder="Enter Profession"
             onChange={handleChange}
-            
+          />
+          {/* File Upload Input */}
+          <input
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="file"
+            name="aadharFile"
+            accept=".jpg,.jpeg,.png,.pdf"
+            onChange={handleChange}
           />
           <button
             className='bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-all'
@@ -140,5 +163,5 @@ export default function Usercreation() {
         </p>
       </footer>
     </div>
-  )
+  );
 }
