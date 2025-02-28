@@ -13,9 +13,7 @@ const OrderList = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const navigate = useNavigate()
-  const location = useLocation()
-
+ 
   useEffect(() => {
     const fetchRental = async () => {
       try {
