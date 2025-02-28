@@ -14,3 +14,10 @@
 .details{
     @apply w-3/4 h-full flex flex-col overflow-auto
 }
+.note-cell{
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-height: 100px; 
+    overflow-y: auto;
+}

@@ -10,8 +10,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
-
 
 
 export const createtool = async (req, res, next) => {
