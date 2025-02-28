@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import OrderUpdate from './OrderUpdate'
-import { useNavigate, useLocation  } from 'react-router-dom'
-
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const OrderList = () => {
   const [orders, setOrders] = useState([])
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const fetchRental = async () => {
@@ -27,16 +26,14 @@ const OrderList = () => {
   // Update orders based on navigation state
   useEffect(() => {
     if (location.state?.updatedOrder) {
-      const updatedOrder = location.state.updatedOrder;
+      const updatedOrder = location.state.updatedOrder
       setOrders(prevOrders =>
         prevOrders.map(order =>
           order._id === updatedOrder._id ? updatedOrder : order
         )
-      );
+      )
     }
-  }, [location.state]);
-
-
+  }, [location.state])
 
   const [selectedOrder, setSelectedOrder] = useState(null)
 
@@ -79,9 +76,7 @@ const OrderList = () => {
         </table>
       </div>
 
-      {selectedOrder && (
-        <OrderUpdate order={selectedOrder} />
-      )}
+      {selectedOrder && <OrderUpdate order={selectedOrder} />}
     </div>
   )
 }
