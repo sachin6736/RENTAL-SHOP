@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
     unique: false
+  },
+  aadharFile:{
+    type:String
   }
 })
 
