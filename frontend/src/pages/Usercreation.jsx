@@ -21,7 +21,7 @@ export default function UserCreation () {
     const fetchUser = async () => {
       if (!id) return // Skip fetching if no user ID is present
       try {
-        const res = await fetch(`http://localhost:5000/user/getuser/${id}`)
+        const res = await fetch(`http://localhost:3000/user/getuser/${id}`)
         const result = await res.json()
 
         setUser(result)
@@ -46,8 +46,9 @@ export default function UserCreation () {
     fetchUser()
   }, [id])
 
-  if (loading) return <p>Loading...</p>
-  if (!user) return <p>User not found</p>
+  if (loading) return <p>Loading...</p>;
+  if (!user && !loading) return <p>User not found. Please check the ID.</p>;
+  
 
   const handleChange = e => {
     if (e.target.type === 'file') {
@@ -73,8 +74,8 @@ export default function UserCreation () {
     }
 
     const url = id
-      ? `http://localhost:5000/user/edituser/${id}`
-      : 'http://localhost:5000/user/createuser'
+      ? `http://localhost:3000/user/edituser/${id}`
+      : 'http://localhost:3000/user/createuser'
 
     try {
       const res = await fetch(url, {
@@ -153,17 +154,18 @@ export default function UserCreation () {
             onChange={handleChange}
           />
 
-          {/* Show Existing Aadhaar Image (Only for Edit Mode) */}
-          {aadharImageUrl && (
-            <div className='flex flex-col items-center'>
-              <p className='text-gray-600'>Current Aadhaar Image:</p>
-              <img
-                src={aadharImageUrl}
-                alt='Aadhar'
-                className='w-24 h-24 object-cover border rounded mt-2'
-              />
-            </div>
-          )}
+          {/* Show Existing Aadhaar Image (Only for Edit Mode)
+          // {aadharImageUrl && (
+          //   <div className='flex flex-col items-center'>
+          //     <p className='text-gray-600'>Current Aadhaar Image:</p>
+          //     <img
+          //       src={aadharImageUrl}
+          //       // src={`http://localhost:3000/${result.aadharFile}`}
+          //       alt='Aadhar'
+          //       className='w-24 h-24 object-cover border rounded mt-2'
+          //     />
+          //   </div>
+          // )} */}
 
           {/* File Upload Input */}
           <input
