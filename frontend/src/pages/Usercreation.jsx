@@ -1,84 +1,97 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
-export default function Usercreation() {
-  const { id } = useParams(); 
-  console.log(id);
-  
-  const navigate = useNavigate();
-  const [buttonText, setButtonText] = useState("Proceed");
+export default function UserCreation () {
+  const { id } = useParams()
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+  const [buttonText, setButtonText] = useState('Proceed')
   const [formData, setFormData] = useState({
     name: '',
     adress: '',
     phone: '',
     aadhar: '',
     profession: ''
-  });
-  const [aadharFile, setAadharFile] = useState(null); 
+  })
+  const [aadharFile, setAadharFile] = useState(null)
+  const [aadharImageUrl, setAadharImageUrl] = useState('') // Store URL of existing Aadhaar image
 
   useEffect(() => {
-    if (id) {
-      fetch(`http://localhost:3000/user/getuser/${id}`)
-        .then((res) => res.json())
-        .then((data) => setFormData(data))
-        .catch((error) => console.error("Error fetching user:", error));
-    }
-  }, [id]);
-  console.log(formData);
+    const fetchUser = async () => {
+      if (!id) return // Skip fetching if no user ID is present
+      try {
+        const res = await fetch(`http://localhost:5000/user/getuser/${id}`)
+        const result = await res.json()
 
-  const handleChange = (e) => {
-    if (e.target.type === "file") {
-      setAadharFile(e.target.files[0]); 
+        setUser(result)
+        setFormData({
+          name: result.name || '',
+          adress: result.adress || '',
+          phone: result.phone || '',
+          aadhar: result.aadhar || '',
+          profession: result.profession || ''
+        })
+
+        if (result.aadharFile) {
+          setAadharImageUrl(result.aadharFile) // Store URL of existing Aadhaar file
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUser()
+  }, [id])
+
+  if (loading) return <p>Loading...</p>
+  if (!user) return <p>User not found</p>
+
+  const handleChange = e => {
+    if (e.target.type === 'file') {
+      const file = e.target.files[0]
+      setAadharFile(file) // Store the newly selected file
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({ ...formData, [e.target.name]: e.target.value })
     }
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("adress", formData.adress);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("aadhar", formData.aadhar);
-    formDataToSend.append("profession", formData.profession);
-    
-    if (aadharFile) {
-      formDataToSend.append("aadharFile", aadharFile); 
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    const formDataToSend = new FormData()
+    formDataToSend.append('name', formData.name)
+    formDataToSend.append('adress', formData.adress)
+    formDataToSend.append('phone', formData.phone)
+    formDataToSend.append('aadhar', formData.aadhar)
+    formDataToSend.append('profession', formData.profession)
+
+    if (aadharFile && aadharFile instanceof File) {
+      formDataToSend.append('aadharFile', aadharFile)
     }
 
     const url = id
-      ? `http://localhost:3000/user/edituser/${id}` 
-      : "http://localhost:3000/user/createuser"; 
+      ? `http://localhost:5000/user/edituser/${id}`
+      : 'http://localhost:5000/user/createuser'
 
-    const method = id ? "PUT" : "POST";
-    
     try {
       const res = await fetch(url, {
-        method: method,
-        body: formDataToSend, // Send as FormData
-      });
-      console.log(res);
+        method: id ? 'PUT' : 'POST',
+        body: formDataToSend
+      })
 
-      if (res.status === 401) {
-        setButtonText("All fields necessary");
-      } else if (res.status === 200 || res.status === 201) {
-        setButtonText(id ? "User Updated" : "User Created");
-        setTimeout(() => navigate("/"), 1500);
-        setFormData({
-          name: '',
-          adress: '',
-          phone: '',
-          aadhar: '',
-          profession: '',
-        });
-        setAadharFile(null);
+      if (res.ok) {
+        setButtonText(id ? 'User Updated' : 'User Created')
+        setTimeout(() => navigate('/'), 1500)
+      } else {
+        setButtonText('Error occurred')
       }
     } catch (error) {
-      console.log("Error:", error);
+      console.error('Error:', error)
     }
-  };
+  }
 
   return (
     <div className='w-screen h-screen flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
@@ -90,61 +103,74 @@ export default function Usercreation() {
           Efficient and affordable tool rentals
         </p>
       </header>
-      <div className="flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full">
-        <h2 className="text-xl font-semibold text-blue-800 mb-4">
-          {id ? "Edit User" : "User Creation"}
+      <div className='flex flex-col justify-center items-center mt-8 p-4 bg-white shadow-lg rounded-md border border-gray-300 max-w-md w-full'>
+        <h2 className='text-xl font-semibold text-blue-800 mb-4'>
+          {id ? 'Edit User' : 'User Creation'}
         </h2>
         <form
           className='flex flex-col w-full space-y-4'
           onSubmit={handleSubmit}
-          encType="multipart/form-data"
+          encType='multipart/form-data'
         >
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="text"
-            name="name"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='text'
+            name='name'
             value={formData.name}
-            placeholder="Enter Name"
+            placeholder='Enter Name'
             onChange={handleChange}
           />
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="text"
-            name="adress"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='text'
+            name='adress'
             value={formData.adress}
-            placeholder="Enter Address"
+            placeholder='Enter Address'
             onChange={handleChange}
           />
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="text"
-            name="phone"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='text'
+            name='phone'
             value={formData.phone}
-            placeholder="Enter Phone Number"
+            placeholder='Enter Phone Number'
             onChange={handleChange}
           />
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="text"
-            name="aadhar"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='text'
+            name='aadhar'
             value={formData.aadhar}
-            placeholder="Enter Aadhar Number"
+            placeholder='Enter Aadhar Number'
             onChange={handleChange}
           />
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="text"
-            name="profession"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='text'
+            name='profession'
             value={formData.profession}
-            placeholder="Enter Profession"
+            placeholder='Enter Profession'
             onChange={handleChange}
           />
+
+          {/* Show Existing Aadhaar Image (Only for Edit Mode) */}
+          {aadharImageUrl && (
+            <div className='flex flex-col items-center'>
+              <p className='text-gray-600'>Current Aadhaar Image:</p>
+              <img
+                src={aadharImageUrl}
+                alt='Aadhar'
+                className='w-24 h-24 object-cover border rounded mt-2'
+              />
+            </div>
+          )}
+
           {/* File Upload Input */}
           <input
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="file"
-            name="aadharFile"
-            accept=".jpg,.jpeg,.png,.pdf"
+            className='p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+            type='file'
+            name='aadharFile'
+            accept='.jpg,.jpeg,.png,.pdf'
             onChange={handleChange}
           />
           <button
@@ -159,9 +185,10 @@ export default function Usercreation() {
       {/* Footer Section */}
       <footer className='mt-8 text-center'>
         <p className='text-gray-500 text-sm'>
-          © {new Date().getFullYear()} Tools Rental Shop. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Tools Rental Shop. All Rights
+          Reserved.
         </p>
       </footer>
     </div>
-  );
+  )
 }
