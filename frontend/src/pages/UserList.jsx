@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ModalImage from 'react-modal-image'
 
 export default function UserList () {
   const navigate = useNavigate()
@@ -76,9 +77,15 @@ export default function UserList () {
                     className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
                   >
                     <td className='border border-gray-300 p-2'>
-                      <img
+                      {/* <img
                         src={`http://localhost:3000/${user.aadharFile}`}
                         alt='aadharFile'
+                      /> */}
+
+                      {/* implemented modal for showing image */}
+                      <ModalImage
+                        small={`http://localhost:3000/${user.aadharFile}`}
+                        large={`http://localhost:3000/${user.aadharFile}`}
                       />
                     </td>
                     <td className='border border-gray-300 p-2'>{user.name}</td>
