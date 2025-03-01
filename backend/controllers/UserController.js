@@ -75,7 +75,7 @@ export const getusertoupdate = async (req, res, next) => {
       res.status(200).json({
         ...updateuser._doc,
         aadharFile: updateuser.aadharFile
-          ? `http://localhost:5000/${updateuser.aadharFile}` // Assuming your server is running on port 5000
+          ? `http://localhost:3000/${updateuser.aadharFile}` // Assuming your server is running on port 5000
           : ''
       })
     } else {

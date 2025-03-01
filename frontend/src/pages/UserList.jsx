@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ModalImage from 'react-modal-image'
 
-export default function UserList() {
-  const navigate=useNavigate()
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function UserList () {
+  const navigate = useNavigate()
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
 
   // Fetch users from the backend
   useEffect(() => {
@@ -12,8 +13,8 @@ export default function UserList() {
       try {
         const res = await fetch('http://localhost:3000/user/getusers') // Replace with your endpoint
         const result = await res.json()
-        console.log(result);
-        
+        console.log(result)
+
         setUsers(result)
       } catch (error) {
         console.error('Error fetching users:', error)
@@ -23,8 +24,6 @@ export default function UserList() {
     }
     fetchUsers()
   }, [])
-
-  
 
   const handleDelete = async userId => {
     try {
@@ -44,9 +43,9 @@ export default function UserList() {
     }
   }
 
-  const handleEdit = (userId) => {
-    navigate(`/edituser/${userId}`); 
-  };
+  const handleEdit = userId => {
+    navigate(`/edituser/${userId}`)
+  }
 
   return (
     <div className='w-full h-full p-4 flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
@@ -57,13 +56,12 @@ export default function UserList() {
         </h2>
         <div className='w-full max-h-[430px] overflow-y-auto'>
           {loading ? (
-          <div className='text-center text-gray-500'>Loading users...</div>
+            <div className='text-center text-gray-500'>Loading users...</div>
           ) : users.length > 0 ? (
-            
             <table className='w-full border-collapse border border-gray-300 text-left'>
               <thead>
                 <tr className='bg-blue-100 text-blue-800'>
-                <th className='border border-gray-300 p-2'>AadharCard</th>
+                  <th className='border border-gray-300 p-2'>AadharCard</th>
                   <th className='border border-gray-300 p-2'>Name</th>
                   <th className='border border-gray-300 p-2'>Address</th>
                   <th className='border border-gray-300 p-2'>Phone</th>
@@ -79,11 +77,18 @@ export default function UserList() {
                     className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
                   >
                     <td className='border border-gray-300 p-2'>
-                      <img src={`http://localhost:3000/${user.aadharFile}`} alt="aadharFile" />
+                      {/* <img
+                        src={`http://localhost:3000/${user.aadharFile}`}
+                        alt='aadharFile'
+                      /> */}
+
+                      {/* implemented modal for showing image */}
+                      <ModalImage
+                        small={`http://localhost:3000/${user.aadharFile}`}
+                        large={`http://localhost:3000/${user.aadharFile}`}
+                      />
                     </td>
-                    <td className='border border-gray-300 p-2'>
-                      {user.name}
-                    </td>
+                    <td className='border border-gray-300 p-2'>{user.name}</td>
                     <td className='border border-gray-300 p-2'>
                       {user.adress}
                     </td>
