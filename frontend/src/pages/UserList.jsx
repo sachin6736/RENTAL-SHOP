@@ -12,6 +12,8 @@ export default function UserList() {
       try {
         const res = await fetch('http://localhost:3000/user/getusers') // Replace with your endpoint
         const result = await res.json()
+        console.log(result);
+        
         setUsers(result)
       } catch (error) {
         console.error('Error fetching users:', error)
@@ -21,6 +23,8 @@ export default function UserList() {
     }
     fetchUsers()
   }, [])
+
+  
 
   const handleDelete = async userId => {
     try {
@@ -53,11 +57,13 @@ export default function UserList() {
         </h2>
         <div className='w-full max-h-[430px] overflow-y-auto'>
           {loading ? (
-            <div className='text-center text-gray-500'>Loading users...</div>
+          <div className='text-center text-gray-500'>Loading users...</div>
           ) : users.length > 0 ? (
+            
             <table className='w-full border-collapse border border-gray-300 text-left'>
               <thead>
                 <tr className='bg-blue-100 text-blue-800'>
+                <th className='border border-gray-300 p-2'>AadharCard</th>
                   <th className='border border-gray-300 p-2'>Name</th>
                   <th className='border border-gray-300 p-2'>Address</th>
                   <th className='border border-gray-300 p-2'>Phone</th>
@@ -72,7 +78,12 @@ export default function UserList() {
                     key={user._id}
                     className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
                   >
-                    <td className='border border-gray-300 p-2'>{user.name}</td>
+                    <td className='border border-gray-300 p-2'>
+                      <img src={`http://localhost:3000/${user.aadharFile}`} alt="aadharFile" />
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {user.name}
+                    </td>
                     <td className='border border-gray-300 p-2'>
                       {user.adress}
                     </td>
