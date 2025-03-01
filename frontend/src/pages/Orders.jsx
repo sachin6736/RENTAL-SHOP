@@ -41,17 +41,14 @@ const OrderList = () => {
     }
   }, [location.state])
 
-
-   // Handle filtering logic
+  // Handle filtering logic
   useEffect(() => {
     let filtered = orders
-
     if (searchCustomer) {
       filtered = filtered.filter(order =>
         order.user.name.toLowerCase().includes(searchCustomer.toLowerCase())
       )
     }
-
     if (searchTool) {
       filtered = filtered.filter(order =>
         order.tools.some(tool =>
@@ -59,20 +56,14 @@ const OrderList = () => {
         )
       )
     }
-
     if (searchDate) {
       filtered = filtered.filter(order => {
-        const orderDate = new Date(order.rentedAt).toISOString().split('T')[0]; // Converts to 'YYYY-MM-DD'
-        return orderDate === searchDate; // Matches with input date format
-      });
+        const orderDate = new Date(order.rentedAt).toISOString().split('T')[0] // Converts to 'YYYY-MM-DD'
+        return orderDate === searchDate // Matches with input date format
+      })
     }
-    
-    
-    
-
     setFilteredOrders(filtered)
   }, [searchCustomer, searchTool, searchDate, orders])
-
 
   const [selectedOrder, setSelectedOrder] = useState(null)
 
@@ -83,10 +74,8 @@ const OrderList = () => {
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
-
-
-       {/* Filters */}
-       <div className='flex gap-4 my-4'>
+      {/* Filters */}
+      <div className='flex gap-4 my-4'>
         <input
           type='text'
           placeholder='Search Customer'
@@ -146,6 +135,7 @@ const OrderList = () => {
         </table>
       </div>
 
+      {selectedOrder && <OrderUpdate order={selectedOrder} />}
       {selectedOrder && <OrderUpdate order={selectedOrder} />}
     </div>
   )
