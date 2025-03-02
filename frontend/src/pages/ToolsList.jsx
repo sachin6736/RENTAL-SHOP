@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Drilling from '../assets/drilling.jpg'
-import Hammer from '../assets/hammer.jpg'
-import Sawmachine from '../assets/sawmachine.webp'
-import Wrenchset from '../assets/wrenchset.webp'
 import { useNavigate } from 'react-router-dom'
 
 const ToolsList = () => {
