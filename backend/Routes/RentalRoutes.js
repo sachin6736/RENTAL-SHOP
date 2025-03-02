@@ -1,14 +1,16 @@
-import express from 'express';
-import { search,createrental,getrent } from '../controllers/RentalControllers.js';
-const router = express.Router();
+import express from 'express'
+import {
+  search,
+  createrental,
+  getRental,
+  updateRental
+} from '../controllers/RentalControllers.js'
 
+const router = express.Router()
 
-router.post('/giverent',createrental)//giving rent
-router.get('/getrent',getrent)//getting rentaldetails
-router.get('/search',search);//searching with username
+router.post('/giverent', createrental) //giving rent
+router.get('/search', search) //searching with username
+router.get('/getrental', getRental) //fetch rent data
+router.put('/update/:id', updateRental) //update rental data
 
-export default router;
-
-
-
-
+export default router
