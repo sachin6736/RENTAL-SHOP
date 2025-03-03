@@ -19,7 +19,7 @@ export default function UserCreation () {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!id) return // Skip fetching if no user ID is present
+      // if (!id) return // Skip fetching if no user ID is present
       try {
         const res = await fetch(`http://localhost:3000/user/getuser/${id}`)
         const result = await res.json()
