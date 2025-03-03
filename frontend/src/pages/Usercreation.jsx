@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 export default function UserCreation () {
   const { id } = useParams()
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [buttonText, setButtonText] = useState('Proceed')
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ export default function UserCreation () {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!id) return // Skip fetching if no user ID is present
+      // if (!id) return // Skip fetching if no user ID is present
       try {
         const res = await fetch(`http://localhost:3000/user/getuser/${id}`)
         const result = await res.json()

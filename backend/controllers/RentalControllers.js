@@ -1,6 +1,10 @@
 import User from '../models/user.js'
 import Rental from '../models/rent.js'
 import Tools from '../models/tools.js'
+import mongoose from 'mongoose';
+// const mongoose = require('mongoose');
+
+
 
 export const createrental = async (req, res, next) => {
   console.log('create rental working')
@@ -45,10 +49,16 @@ export const createrental = async (req, res, next) => {
       await tool.save()
     }
 
-    const formattedTools = tools.map(tool => ({
-      toolId: mongoose.Types.ObjectId(tool.toolId),
-      count: tool.count
-    }))
+    const formattedTools = tools.map(tool => {
+      if (!mongoose.Types.ObjectId.isValid(tool.toolId)) {
+        throw new Error(`Invalid tool ID: ${tool.toolId}`);
+      }
+      return {
+        toolId: new mongoose.Types.ObjectId(tool.toolId),
+        count: tool.count
+      };
+    });
+    
     const newRental = new Rental({
       user: user._id,
       tools: formattedTools,
