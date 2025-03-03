@@ -13,6 +13,7 @@ export default function RentalForm () {
   const [tools, setTools] = useState([])
   const [matchingUsers, setMatchingUsers] = useState([]) // Store the matching users
   const userListRef = useRef(null) // Ref for the matching users list
+  const [error,setError]=useState("")
 
   const [stockError, setStockError] = useState('')
 
@@ -142,14 +143,16 @@ export default function RentalForm () {
       if (response.ok) {
         alert('Rental created successfully!')
         setFormData({
-          name: '',
-          phone: '',
-          tools: [{ toolId: '', count: '' }],
-          time: '',
-          amount: 0
-        })
-      } else {
-        setStockError(data.message || 'Error creating rental.')
+          name: "",
+          phone: "",
+          tools: [{ toolId: "", count: "" }],
+          time: "",
+          amount: 0,
+        });
+        setError("");
+      }if(response.status === 400){
+        setError("Error creating rental.");
+        console.log("error in stck")
       }
     } catch (error) {
       console.error('Error submitting rental form:', error)
@@ -298,6 +301,8 @@ export default function RentalForm () {
             </button>
           </div>
         </form>
+        {error && <p className="text-red-500">please check the stocks</p>}
+
       </div>
 
       {/* Footer Section */}

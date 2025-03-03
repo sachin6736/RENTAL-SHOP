@@ -4,7 +4,7 @@ import Tools from './tools.js'
 const rentalSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User collection
+    ref: 'User',
     required: true
   },
   tools: [
@@ -14,20 +14,22 @@ const rentalSchema = new mongoose.Schema({
         ref: 'Tools',
         required: true
       },
-      count: { type: Number, required: true }
+      count: { type: Number, required: true },  // Total rented tools
+      returnedCount: { type: Number, default: 0 }, // Count of returned tools
+      returnedAt: [{ type: Date }] // Array of return timestamps
     }
   ],
   time: { type: Number, required: true }, // E.g., "3 days"
   amount: { type: Number, required: true }, // Total amount for the rental
   status: {
     type: String,
-    enum: ['rented', 'returned', 'missing'],
+    enum: ['rented', 'partially returned', 'returned', 'missing'],
     default: 'rented'
   },
-  rentedAt: { type: Date, default: Date.now }, // Timestamp of when the rent happened
-  returnedAt: { type: Date }, // Set when the tool is returned
-  note: {type: String}
+  rentedAt: { type: Date, default: Date.now }, // When rented
+  note: { type: String }
 })
 
-const Rental = mongoose.model('Rental', rentalSchema)
+
+const Rental = mongoose.model('Rental',rentalSchema)
 export default Rental

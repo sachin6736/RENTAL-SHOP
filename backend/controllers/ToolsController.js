@@ -35,7 +35,7 @@ export const createtool = async (req, res, next) => {
 } ///adding tool
 
 // In your tools controller
-export const gettools = async (req, res) => {
+export const gettools = async (req, res) => {  
   try {
     const tools = await Tools.find() // Fetch all tools from the database
     res.status(200).json(tools)
