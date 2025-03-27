@@ -153,7 +153,6 @@ export default function UserCreation () {
             placeholder='Enter Profession'
             onChange={handleChange}
           />
-
           {/* Show Existing Aadhaar Image (Only for Edit Mode)
           // {aadharImageUrl && (
           //   <div className='flex flex-col items-center'>
