@@ -9,6 +9,7 @@ const OrderList = () => {
   const [searchCustomer, setSearchCustomer] = useState('')
   const [searchTool, setSearchTool] = useState('')
   const [searchDate, setSearchDate] = useState('')
+  const [totalAmount, setTotalAmount] = useState(0)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -22,6 +23,8 @@ const OrderList = () => {
         console.log('API Response', response.data)
         setOrders(response.data)
         setFilteredOrders(response.data)
+        // const today = new Date().toISOString().split('T')[0]
+        // setSearchDate(today)
       } catch (error) {
         console.log('Error fetching data', error)
       }
@@ -43,13 +46,13 @@ const OrderList = () => {
 
   // Handle filtering logic
   useEffect(() => {
-    let filtered = orders
-    if (searchCustomer) {
+    let filtered = [...orders]
+    if (searchCustomer.trim()) {
       filtered = filtered.filter(order =>
         order.user.name.toLowerCase().includes(searchCustomer.toLowerCase())
       )
     }
-    if (searchTool) {
+    if (searchTool.trim()) {
       filtered = filtered.filter(order =>
         order.tools.some(tool =>
           tool.toolId.name.toLowerCase().includes(searchTool.toLowerCase())
@@ -62,8 +65,21 @@ const OrderList = () => {
         return orderDate === searchDate // Matches with input date format
       })
     }
-    setFilteredOrders(filtered)
+    // setFilteredOrders(filtered)
+    setFilteredOrders(filtered.length > 0 ? filtered : []);
   }, [searchCustomer, searchTool, searchDate, orders])
+
+  useEffect(() => {
+    if (filteredOrders.length > 0) {
+      const total = filteredOrders.reduce(
+        (sum, order) => sum + (order.amount || 0),
+        0
+      )
+      setTotalAmount(total)
+    } else {
+      setTotalAmount(0) // No orders found
+    }
+  }, [filteredOrders])
 
   const [selectedOrder, setSelectedOrder] = useState(null)
 
@@ -75,7 +91,7 @@ const OrderList = () => {
   return (
     <div className='w-full h-full flex flex-col items-center bg-gradient-to-r from-blue-200 via-white to-blue-200'>
       {/* Filters */}
-      <div className='flex gap-4 my-4'>
+      <div className='flex gap-4 my-2'>
         <input
           type='text'
           placeholder='Search Customer'
@@ -99,11 +115,12 @@ const OrderList = () => {
       </div>
 
       {/* Orders Table */}
-      <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg overflow-y-auto scrollbar-none'>
+
+      <div className='w-3/4 mt-2 p-4 bg-white shadow-lg rounded-lg overflow-y-auto h-[calc(100vh-250px)]'>
         <table className='w-full border-collapse'>
           {/* Table Header */}
-          <thead>
-            <tr className='bg-blue-600 text-white text-left'>
+          <thead className='sticky top-0 z-10 bg-blue-600'>
+            <tr className='text-white text-left'>
               {/* <th className='p-3 w-1/6'>Order ID</th> */}
               <th className='p-3 w-1/3'>Customer</th>
               <th className='p-3 w-1/4'>Total Price (₹)</th>
@@ -113,8 +130,8 @@ const OrderList = () => {
           </thead>
 
           {/* Table Body */}
-          <tbody>
-            {filteredOrders.map((order, index) => (
+          <tbody className='overflow-y-auto h-[calc(100%-48px)]'>
+            {filteredOrders.length > 0 ? filteredOrders.map((order, index) => (
               <tr
                 key={order.id || order._id}
                 className={`text-gray-700 text-left ${
@@ -122,7 +139,6 @@ const OrderList = () => {
                 }`}
                 onClick={() => handleclick(order)}
               >
-                {/* <td className='p-3 border'>{order._id}</td> */}
                 <td className='p-3 border'>{order.user.name}</td>
                 <td className='p-3 border'>₹{order.amount}</td>
                 <td className='p-3 border'>{order.status}</td>
@@ -130,13 +146,28 @@ const OrderList = () => {
                   {order.note || 'No note'}
                 </td>
               </tr>
-            ))}
+            )): (
+              <tr>
+              <td colSpan="4" className="w-full text-center text-gray-500 p-3">
+                No Orders Found on {searchDate}
+              </td>
+            </tr>
+            )}
           </tbody>
         </table>
       </div>
 
+       {/* Total Amount Display */}
+       <div className="mt-4 p-3 text-lg font-semibold">
+        {totalAmount > 0 ? (
+          <p>Total Amount: ₹{totalAmount}</p>
+        ) : (
+          <p className="text-gray-500">No orders for {searchDate}</p>
+        )}
+      </div>
+
       {selectedOrder && <OrderUpdate order={selectedOrder} />}
-      {selectedOrder && <OrderUpdate order={selectedOrder} />}
+      {/* {selectedOrder && <OrderUpdate order={selectedOrder} />} */}
     </div>
   )
 }
