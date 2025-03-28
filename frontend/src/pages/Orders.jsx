@@ -99,41 +99,43 @@ const OrderList = () => {
       </div>
 
       {/* Orders Table */}
-      <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg overflow-y-auto scrollbar-none'>
-        <table className='w-full border-collapse'>
-          {/* Table Header */}
-          <thead>
-            <tr className='bg-blue-600 text-white text-left'>
-              {/* <th className='p-3 w-1/6'>Order ID</th> */}
-              <th className='p-3 w-1/3'>Customer</th>
-              <th className='p-3 w-1/4'>Total Price (₹)</th>
-              <th className='p-3 w-1/4'>Status</th>
-              <th className='p-3 w-1/4'>Note</th>
-            </tr>
-          </thead>
-
-          {/* Table Body */}
-          <tbody>
-            {filteredOrders.map((order, index) => (
-              <tr
-                key={order.id || order._id}
-                className={`text-gray-700 text-left ${
-                  index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
-                }`}
-                onClick={() => handleclick(order)}
-              >
-                {/* <td className='p-3 border'>{order._id}</td> */}
-                <td className='p-3 border'>{order.user.name}</td>
-                <td className='p-3 border'>₹{order.amount}</td>
-                <td className='p-3 border'>{order.status}</td>
-                <td className='p-3 border note-cell'>
-                  {order.note || 'No note'}
-                </td>
+      {/* <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg'> */}
+        <div className='w-3/4 mt-6 p-4 bg-white shadow-lg rounded-lg overflow-y-auto h-[calc(100vh-200px)]'>
+          <table className='w-full border-collapse'>
+            {/* Table Header */}
+            <thead className='sticky top-0 z-10 bg-blue-600'>
+              <tr className='text-white text-left'>
+                {/* <th className='p-3 w-1/6'>Order ID</th> */}
+                <th className='p-3 w-1/3'>Customer</th>
+                <th className='p-3 w-1/4'>Total Price (₹)</th>
+                <th className='p-3 w-1/4'>Status</th>
+                <th className='p-3 w-1/4'>Note</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            {/* Table Body */}
+            <tbody className='overflow-y-auto scrollbar-none h-[calc(100%-48px)]'>
+              {filteredOrders.map((order, index) => (
+                <tr
+                  key={order.id || order._id}
+                  className={`text-gray-700 text-left ${
+                    index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                  }`}
+                  onClick={() => handleclick(order)}
+                >
+                  {/* <td className='p-3 border'>{order._id}</td> */}
+                  <td className='p-3 border'>{order.user.name}</td>
+                  <td className='p-3 border'>₹{order.amount}</td>
+                  <td className='p-3 border'>{order.status}</td>
+                  <td className='p-3 border note-cell'>
+                    {order.note || 'No note'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      {/* </div> */}
 
       {selectedOrder && <OrderUpdate order={selectedOrder} />}
       {selectedOrder && <OrderUpdate order={selectedOrder} />}
