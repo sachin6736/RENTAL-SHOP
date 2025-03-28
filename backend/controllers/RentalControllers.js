@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import User from '../models/user.js'
 import Rental from '../models/rent.js'
 import Tools from '../models/tools.js'
@@ -6,11 +5,6 @@ import mongoose from 'mongoose';
 // const mongoose = require('mongoose');
 
 
-=======
-  import User from '../models/user.js'
-  import Rental from '../models/rent.js'
-  import Tools from '../models/tools.js'
->>>>>>> 6f1de726ecf1bfcca30466ac987be33e454fbea5
 
   export const createrental = async (req, res, next) => {
     console.log('create rental working')
@@ -76,52 +70,69 @@ import mongoose from 'mongoose';
   }
 
   //controller to fetch rental data
+  // export const getRental = async (req, res) => {
+  //   try {
+  //     console.log('Fetching rental data...')
+  //     const rentals = await Rental.find()
+  //       .populate('user', 'name phone')
+  //       .populate('tools.toolId', 'name')
+
+  //     if (!rentals.length) {
+  //       console.log('No rental data found')
+  //       return res.status(404).json({ message: 'No rentals found' })
+  //     }
+
+  //     res.json(rentals)
+  //   } catch (error) {
+  //     console.error('Error fetching rentals:', error)
+  //     res.status(500).json({ message: 'Internal server error' })
+  //   }
+
+  //   const formattedTools = tools.map(tool => {
+  //     if (!mongoose.Types.ObjectId.isValid(tool.toolId)) {
+  //       throw new Error(`Invalid tool ID: ${tool.toolId}`);
+  //     }
+  //     return {
+  //       toolId: new mongoose.Types.ObjectId(tool.toolId),
+  //       count: tool.count
+  //     };
+  //   });
+    
+  //   const newRental = new Rental({
+  //     user: user._id,
+  //     tools: formattedTools,
+  //     time,
+  //     amount,
+  //     status: 'rented'
+  //   })
+
+  //   await newRental.save()
+
+  //   res.status(201).json('created rental')
+  // } catch (error) {
+  //   console.error('Error creating rental:', error)
+  //   res.status(500).json({ message: 'Internal Server Error' })
+  // }
+
   export const getRental = async (req, res) => {
     try {
-      console.log('Fetching rental data...')
+      console.log('Fetching rental data...');
       const rentals = await Rental.find()
         .populate('user', 'name phone')
-        .populate('tools.toolId', 'name')
-
+        .populate('tools.toolId', 'name');
+  
       if (!rentals.length) {
-        console.log('No rental data found')
-        return res.status(404).json({ message: 'No rentals found' })
+        console.log('No rental data found');
+        return res.status(404).json({ message: 'No rentals found' });
       }
-
-      res.json(rentals)
+  
+      res.json(rentals);
     } catch (error) {
-      console.error('Error fetching rentals:', error)
-      res.status(500).json({ message: 'Internal server error' })
+      console.error('Error fetching rentals:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-<<<<<<< HEAD
-
-    const formattedTools = tools.map(tool => {
-      if (!mongoose.Types.ObjectId.isValid(tool.toolId)) {
-        throw new Error(`Invalid tool ID: ${tool.toolId}`);
-      }
-      return {
-        toolId: new mongoose.Types.ObjectId(tool.toolId),
-        count: tool.count
-      };
-    });
-    
-    const newRental = new Rental({
-      user: user._id,
-      tools: formattedTools,
-      time,
-      amount,
-      status: 'rented'
-    })
-
-    await newRental.save()
-
-    res.status(201).json('created rental')
-  } catch (error) {
-    console.error('Error creating rental:', error)
-    res.status(500).json({ message: 'Internal Server Error' })
-=======
->>>>>>> 6f1de726ecf1bfcca30466ac987be33e454fbea5
-  }
+  };
+  
 
   //updating rental when full tools are returned
   export const updateRental = async (req, res) => {
