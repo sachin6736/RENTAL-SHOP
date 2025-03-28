@@ -21,10 +21,11 @@ const OrderList = () => {
           'http://localhost:3000/rental/getrental'
         )
         console.log('API Response', response.data)
+        const sortedOrders = response.data.sort(
+          (a, b) => new Date(b.rentedAt) - new Date(a.rentedAt)
+        )
         setOrders(response.data)
         setFilteredOrders(response.data)
-        // const today = new Date().toISOString().split('T')[0]
-        // setSearchDate(today)
       } catch (error) {
         console.log('Error fetching data', error)
       }
